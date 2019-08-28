@@ -16,7 +16,7 @@
     <meta name="description" content>
     <meta name="author" content="Crazy-wen">
     <meta name="keywords" content>
-    <title>Crazy-wen&#39;s Blog</title>
+    <title>搭建博客 ~ Crazy-wen&#39;s Blog</title>
     <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
@@ -70,13 +70,16 @@
 
 </nav>
     <div class="view intro-2"
-         style="background: url('/img/index.jpg')no-repeat center center;background-size: cover;">
+         style="background: url('/img/post.jpg')no-repeat center center;background-size: cover;">
         <div class="full-bg-img">
             <div class="mask rgba-black-light flex-center">
                 <div class="container text-center white-text wow fadeInUp">
                     <span  class="h1"  id="subtitle">
                         
                     </span>
+                    
+                        <br>
+                        <p>Tuesday, August 27th 2019, 1:08 pm</p>
                     
                 </div>
             </div>
@@ -86,57 +89,87 @@
 
 <main>
     
-        <div class="container nopadding-md">
-            <div class="py-5 z-depth-3 board">
-                
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-md-10 m-auto">
-                            
+        
 
 
-    <div class="row mb-4 mx-auto">
-        
-        
-        <div class="col-12 col-md-8 m-auto">
-            <a href="/2019/08/27/搭建博客/">
-                <p class="h4 index-header">搭建博客</p>
-                <div class="index-excerpt">
-                    
-                        <div class="index-text mb-1">搭建博客
-环境MAC OS
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-md">
+                <div class="py-5 z-depth-3 board">
+                    <div class="post-content mx-auto">
+                        <div class="markdown-body">
+                            <h1 id="搭建博客"><a href="#搭建博客" class="headerlink" title="搭建博客"></a>搭建博客</h1><hr>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><pre><code>MAC OS
 Hexo
-Github本来想用jekyll搭建博客，但是Mac好像不太想支持，于是换了Hexo，一路顺畅。
-用Hexo搭建博客流程
-VS Code插件与Markdown语法
-Hexo 主题
-遇到的问题换主题时出现No layout:index.html查看hexo插件安装情况
-npm ls --depth 0 
+Github</code></pre><p>本来想用jekyll搭建博客，但是Mac好像不太想支持，于是换了Hexo，一路顺畅。</p>
+<p><a href="https://www.jianshu.com/p/cb0750324e26" target="_blank" rel="noopener">用Hexo搭建博客流程</a></p>
+<p><a href="https://blog.csdn.net/ArthurCaoMH/article/details/89300713" target="_blank" rel="noopener">VS Code插件与Markdown语法</a></p>
+<p><a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo 主题</a></p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>换主题时出现No layout:index.html<br>查看hexo插件安装情况</p>
+<pre><code>npm ls --depth 0 
 出现以下信息
 npm ERR! peer dep missing: eslint@&gt;= 4.12.1, required by babel-eslint@10.0.1
-npm install eslint --save     #安装缺失的包</div>
-                    
-                </div>
-            </a>
-
-            
-                <div>
-                    <i class="iconfont icon-riqi2"></i>&nbsp;2019-08-27
-                    &nbsp;&nbsp;
-                    
-                    
-                </div>
-            
-        </div>
-    </div>
-
-
-
+npm install eslint --save     #安装缺失的包</code></pre>
+                            <hr>
+                        </div>
+                        <br>
+                        <div>
+                            
+                            <p>
+                                <i class="iconfont icon-tag"></i>
+                                
+                            </p>
+                            
+                                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+        <div class="d-none d-lg-block col-lg-2 toc-container">
+            
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i> Toc:</p> 
+    <div id="tocbot"></div>
+  </div>
+
         </div>
+    </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container comments mx-auto" id="comments">
+        
+            <br><br>
+            
+            <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>               
+        var disqus_shortname = '';
+        var disqus_config = function () {
+            this.page.url = 'http://127.0.0.1:4000/2019/08/27/搭建博客/'; 
+            this.page.identifier = '/2019/08/27/搭建博客/';
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//'+disqus_shortname+'.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</div>
     
 </main>
 
@@ -158,6 +191,11 @@ npm install eslint --save     #安装缺失的包</div>
   <script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
   <script src="/js/main.js"></script>
   
+    
+      <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+    
+    <script src="/js/post.js"></script>
+  
   
     <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
     <script>
@@ -173,7 +211,7 @@ npm install eslint --save     #安装缺失的包</div>
         var typed = new Typed('#subtitle', {
           strings: [
             '  ',
-            "故百战百胜，非善之善也；不战而屈人之兵，善之善者也&nbsp;",
+            "搭建博客&nbsp;",
         ],
         cursorChar: "_",
         typeSpeed: 70,
