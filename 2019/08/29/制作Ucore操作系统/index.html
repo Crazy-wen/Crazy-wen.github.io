@@ -17,7 +17,7 @@
     <meta name="description" content>
     <meta name="author" content="Crazy-wen">
     <meta name="keywords" content>
-    <title>Categories ~ Crazy-wen&#39;s Blog</title>
+    <title>制作Ucore操作系统 ~ Crazy-wen&#39;s Blog</title>
     <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
@@ -71,13 +71,16 @@
 
 </nav>
     <div class="view intro-2"
-         style="background: url('/img/archive.jpg')no-repeat center center;background-size: cover;">
+         style="background: url('/img/post.jpg')no-repeat center center;background-size: cover;">
         <div class="full-bg-img">
             <div class="mask rgba-black-light flex-center">
                 <div class="container text-center white-text wow fadeInUp">
                     <span  class="h1"  id="subtitle">
                         
                     </span>
+                    
+                        <br>
+                        <p>Thursday, August 29th 2019, 9:17 pm</p>
                     
                 </div>
             </div>
@@ -87,22 +90,76 @@
 
 <main>
     
-        <div class="container nopadding-md">
-            <div class="py-5 z-depth-3 board">
-                
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-md-10 m-auto">
+        
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-md">
+                <div class="py-5 z-depth-3 board">
+                    <div class="post-content mx-auto">
+                        <div class="markdown-body">
                             
-
-
-
-
+                            <hr>
+                        </div>
+                        <br>
+                        <div>
+                            
+                            <p>
+                                <i class="iconfont icon-tag"></i>
+                                
+                            </p>
+                            
+                                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+        <div class="d-none d-lg-block col-lg-2 toc-container">
+            
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i> Toc:</p> 
+    <div id="tocbot"></div>
+  </div>
+
         </div>
+    </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container comments mx-auto" id="comments">
+        
+            <br><br>
+            
+            <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>               
+        var disqus_shortname = '';
+        var disqus_config = function () {
+            this.page.url = 'http://127.0.0.1:4000/2019/08/29/制作Ucore操作系统/'; 
+            this.page.identifier = '/2019/08/29/制作Ucore操作系统/';
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//'+disqus_shortname+'.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</div>
     
 </main>
 
@@ -124,6 +181,11 @@
   <script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
   <script src="/js/main.js"></script>
   
+    
+      <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+    
+    <script src="/js/post.js"></script>
+  
   
     <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
     <script>
@@ -139,7 +201,7 @@
         var typed = new Typed('#subtitle', {
           strings: [
             '  ',
-            "Categories&nbsp;",
+            "制作Ucore操作系统&nbsp;",
         ],
         cursorChar: "_",
         typeSpeed: 70,
