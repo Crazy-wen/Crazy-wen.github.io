@@ -117,14 +117,19 @@ _hmt.push(['_setPageTag', id, value]);
         
         <div class="col-12 col-md-8 m-auto">
             <a href="/2019/08/30/隐藏开机登录用户/">
-                <p class="h4 index-header">渗透室友的windows</p>
+                <p class="h4 index-header">在室友的windows维权</p>
                 <div class="index-excerpt">
                     
-                        <div class="index-text mb-1">&emsp;&emsp;有一天，你突然想获取你室友电脑上的重要资料，又不想让你室友知道，并在以后也能轻松获取，那怎么办呢？找机会查看他的账户密码？这貌似不太可能，因为windows的密码是经过散列加密的，这种加密技术在技术上来说是不可逆的。在windows 9X时代，由于技术的不完善，用户可以通过某些方式跳过密码登录，抑或删除密码。但是后续的windows均进行了更新，致使无法破解抑或查看密码。虽然还有诸多办法，但是我认为的还是取得他的电脑权限，因此我们可以找机会在他的电脑上进行操作，取得权限并维权，开启FTP服务，获取其电脑上的资料。接下来，我要用三种方法实现对室友主机的渗透并维权
+                        <div class="index-text mb-1">背景
+有一天，我突然想获取你室友电脑上的重要资料，又不想让你室友知道，并在以后也能轻松获取，那怎么办呢？找机会查看他的账户密码？这貌似不太可能，因为windows的密码是经过散列加密的，这种加密技术在技术上来说是不可逆的。在windows 9X时代，由于技术的不完善，用户可以通过某些方式跳过密码登录，抑或删除密码。但是后续的windows均进行了更新，致使无法破解抑或查看密码。
+
+
+虽然还有诸多办法，但是我认为的还是取得他的电脑权限，因此我们可以找机会在他的电脑上进行操作，取得权限并维权，开启FTP服务，获取其电脑上的资料。接下来，我要用三种方法实现对室友主机的渗透并维权
+
 环境Windows 7(被控主机)
 Windows 10方法一：创建用户并且在开机时不显示win7：创建隐藏的超级用户以管理员身份运行命令行
 net user wen$ wen /add   
-net localgroup administrators wen$ /add&emsp;&emsp;创建用户名为wen，密码为wen的新用户，$使得新用户使用net user不会显示出来,并将用户提升为管理员权限</div>
+net localgroup administrators wen$ /add&emsp;&emsp;创建用户名为wen，密码为wen的新用户，$使得新用户使用net user不会显示出来,并将用户提升为管理员权限。此时，我</div>
                     
                 </div>
             </a>

