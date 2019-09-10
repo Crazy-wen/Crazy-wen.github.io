@@ -123,7 +123,20 @@ _hmt.push(['_setPageTag', id, value]);
                         <div class="index-text mb-1">参考文献
 Mac下配置LaTeX环境在按下⌘+ B时注意选择好编译种类，若有中文则选择XeLaTeXLaTeX语法
 
-</div>
+中文字体环境问题在用TexShop编译排版数学建模论文模版时，出现以下错误
+
+Package fontspec Error: The font SimSun cannot be found 
+
+意思是缺少SimSun字体
+解决
+从网上下载这些字体，然后在Mac上安装(打开即后点击安装)http://fontzone.net/  这是字体下载网站
+
+再次尝试编译再次出现字体错误
+
+Package fontspec Error: The font simKai cannot be found 
+
+
+但是Mac中是带有楷体的。那到底是什么原因呢？原来，楷体在 Mac 中的名字是 KaiTi 而不是 SIMKAI （这一点可以从字体册中看到）。因此我们，需要在 ctex 的设置中修改一下字体名。需要修改的文件在/usr/local/texlive/2019/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-windowsnew.def</div>
                     
                 </div>
             </a>
@@ -175,17 +188,23 @@ net user wen$ wen /a</div>
         
         <div class="col-12 col-md-8 m-auto">
             <a href="/2019/08/29/制作Ucore操作系统/">
-                <p class="h4 index-header">制作Ucore操作系统</p>
+                <p class="h4 index-header">一步一步构建Ucore操作系统</p>
                 <div class="index-excerpt">
                     
-                        <div class="index-text mb-1">实验环境虚拟机： Ubuntu
-实验工具： 
-  系统维护工具： apt，git
-  源码阅读与编辑工具： Eclipse-CDT、understand、gedit、vim
-  源码比较工具：dif, meld
-  开发编译调试工具：gcc、gdb、make
-  硬件模枞器：qemuUcore实验源码
-</div>
+                        <div class="index-text mb-1">源代码网址:
+http://www.github.com/chyyuu/ucorebook_code
+
+下载源代码到本地
+git://www.github.com/chyyuu/ucorebook_code.git
+
+Lab 0实验目标
+操作系统是一个软件，也需要通过某种手段加载并运行它，由于硬件实现较为复杂，在这里我们将通过另外一个更加简单的软件-bootloader来完成这些工作。为此，我们需要完成一个能够切换到x86的保护模式并显示字符的bootloader，为将来启动操作系统做准备。proj1提供了一个非常小的bootloader，整个bootloader的大小小于512个字节，这样才能放到硬盘的主引导扇区中
+
+BootLoader是什么
+在嵌入式操作系统中，BootLoader是在操作系统内核运行之前运行。可以初始化硬件设备、建立内存空间映射图，从而将系统的软硬件环境带到一个合适状态，以便为最终调用操作系统内核准备好正确的环境。
+
+
+在嵌入式系统中，通常并没有像BIOS那样的固件程序（注，有的嵌入式CPU也会内嵌一段短小的启动程序），因此整个系统的加载启动任务就完全由Boot</div>
                     
                 </div>
             </a>
