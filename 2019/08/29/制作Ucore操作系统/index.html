@@ -17,7 +17,7 @@
     <meta name="description" content>
     <meta name="author" content="Crazy-wen">
     <meta name="keywords" content>
-    <title>一步一步构建Ucore操作系统(Lab 0) ~ Crazy-wen&#39;s Blog</title>
+    <title>一步一步构建Ucore操作系统(Lab 1) ~ Crazy-wen&#39;s Blog</title>
     <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
@@ -130,7 +130,7 @@ _hmt.push(['_setPageTag', id, value]);
   源码阅读与编辑工具： Eclipse-CDT、understand、gedit、vim
   源码比较工具：dif, meld
   开发编译调试工具：gcc、gdb、make
-  硬件模枞器：qemu</code></pre><h1 id="Lab-0"><a href="#Lab-0" class="headerlink" title="Lab 0"></a>Lab 0</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><blockquote>
+  硬件模枞器：qemu</code></pre><h1 id="Lab-1"><a href="#Lab-1" class="headerlink" title="Lab 1"></a>Lab 1</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><blockquote>
 <p>操作系统是一个软件，也需要通过某种手段加载并运行它，由于硬件实现较为复杂，在这里我们将通过另外一个更加简单的软件-bootloader来完成这些工作。为此，我们需要完成一个能够<strong>切换到x86的保护模式并显示字符的bootloader</strong>，为将来启动操作系统做准备。proj1提供了一个非常小的bootloader，整个bootloader的大小小于512个字节，这样才能放到硬盘的主引导扇区中</p>
 </blockquote>
 <h3 id="BootLoader是什么"><a href="#BootLoader是什么" class="headerlink" title="BootLoader是什么"></a>BootLoader是什么</h3><blockquote>
@@ -749,7 +749,7 @@ struct proghdr {
         var typed = new Typed('#subtitle', {
           strings: [
             '  ',
-            "一步一步构建Ucore操作系统(Lab 0)&nbsp;",
+            "一步一步构建Ucore操作系统(Lab 1)&nbsp;",
         ],
         cursorChar: "_",
         typeSpeed: 70,
