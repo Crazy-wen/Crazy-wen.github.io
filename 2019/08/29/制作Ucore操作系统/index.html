@@ -17,7 +17,7 @@
     <meta name="description" content>
     <meta name="author" content="Crazy-wen">
     <meta name="keywords" content>
-    <title>一步一步构建Ucore操作系统 ~ Crazy-wen&#39;s Blog</title>
+    <title>一步一步构建Ucore操作系统(Lab 0) ~ Crazy-wen&#39;s Blog</title>
     <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
@@ -121,10 +121,16 @@ _hmt.push(['_setPageTag', id, value]);
                             <h4 id="源代码网址"><a href="#源代码网址" class="headerlink" title="源代码网址:"></a>源代码网址:</h4><blockquote>
 <p><a href="http://www.github.com/chyyuu/ucorebook_code" target="_blank" rel="noopener">http://www.github.com/chyyuu/ucorebook_code</a></p>
 </blockquote>
-<h4 id="下载源代码到本地"><a href="#下载源代码到本地" class="headerlink" title="下载源代码到本地"></a>下载源代码到本地</h4><blockquote>
-<p>git://<a href="http://www.github.com/chyyuu/ucorebook_code.git" target="_blank" rel="noopener">www.github.com/chyyuu/ucorebook_code.git</a></p>
+<h4 id="下载全部源代码到本地"><a href="#下载全部源代码到本地" class="headerlink" title="下载全部源代码到本地"></a>下载全部源代码到本地</h4><blockquote>
+<p>git clone git://github.com/chyyuu/ucore_os_lab.git<br>cd ucore_os_lab<br>git pull         #更新</p>
 </blockquote>
-<h1 id="Lab-0"><a href="#Lab-0" class="headerlink" title="Lab 0"></a>Lab 0</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><blockquote>
+<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><pre><code>虚拟机： Ubuntu
+实验工具： 
+  系统维护工具： apt，git
+  源码阅读与编辑工具： Eclipse-CDT、understand、gedit、vim
+  源码比较工具：dif, meld
+  开发编译调试工具：gcc、gdb、make
+  硬件模枞器：qemu</code></pre><h1 id="Lab-0"><a href="#Lab-0" class="headerlink" title="Lab 0"></a>Lab 0</h1><h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h2><blockquote>
 <p>操作系统是一个软件，也需要通过某种手段加载并运行它，由于硬件实现较为复杂，在这里我们将通过另外一个更加简单的软件-bootloader来完成这些工作。为此，我们需要完成一个能够<strong>切换到x86的保护模式并显示字符的bootloader</strong>，为将来启动操作系统做准备。proj1提供了一个非常小的bootloader，整个bootloader的大小小于512个字节，这样才能放到硬盘的主引导扇区中</p>
 </blockquote>
 <h3 id="BootLoader是什么"><a href="#BootLoader是什么" class="headerlink" title="BootLoader是什么"></a>BootLoader是什么</h3><blockquote>
@@ -138,12 +144,14 @@ _hmt.push(['_setPageTag', id, value]);
 <li>实模式到保护模式的转换</li>
 <li>在保护模式下通过PIO方式控制串口、并口和CGA等进行字符串输出</li>
 </ul>
-<h3 id="BootLoader的整体目录"><a href="#BootLoader的整体目录" class="headerlink" title="BootLoader的整体目录"></a>BootLoader的整体目录</h3><pre><code>    proj1 /
+<h3 id="BootLoader的整体目录"><a href="#BootLoader的整体目录" class="headerlink" title="BootLoader的整体目录"></a>BootLoader的整体目录</h3><pre><code>    lab1 /
     |-- boot
     |   |-- asm.h
     |   |-- bootasm.S
     |   `-- bootmain.c
     |-- libs
+    |   |-- defs.h
+    |   |-- elf.h
     |   |-- types.h
     |   `-- x86.h
     |-- Makefile
@@ -159,13 +167,490 @@ _hmt.push(['_setPageTag', id, value]);
 <li>sign.c：一个C语言小程序，是辅助工具，用于生成一个符合规范的硬盘主引导扇区。</li>
 <li>gdbinit：用于gdb远程调试的初始命令脚本</li>
 </ul>
-<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><pre><code>虚拟机： Ubuntu
-实验工具： 
-  系统维护工具： apt，git
-  源码阅读与编辑工具： Eclipse-CDT、understand、gedit、vim
-  源码比较工具：dif, meld
-  开发编译调试工具：gcc、gdb、make
-  硬件模枞器：qemu</code></pre>
+<h2 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h2><h3 id="GDT-全局描述符表"><a href="#GDT-全局描述符表" class="headerlink" title="GDT(全局描述符表)"></a>GDT(全局描述符表)</h3><blockquote>
+<p>GDT可以被放在内存的任何位置，那么当程序员通过段寄存器来引用一个段描述符时，CPU必须知道GDT的入口，也就是基地址放在哪里，所以Intel的设计者门提供了一个寄存器GDTR用来存放GDT的入口地址，程序员将GDT设定在内存中某个位置之后，可以通过LGDT指令将GDT的入口地址装入此寄存器，从此以后，CPU就根据此寄存器中的内容作为GDT的入口来访问GDT了。</p>
+</blockquote>
+<blockquote>
+<p>在保护模式下，对内存的访问仍能使用段地址和偏移地址，但是，在每个段能够访问之前，必须先进行登记。当你访问的偏移量超出段的界限时，处理器就会阻止这种访问，并产生一个叫做内部异常的中断。</p>
+</blockquote>
+<h3 id="LDT（局部描述符表）"><a href="#LDT（局部描述符表）" class="headerlink" title="LDT（局部描述符表）"></a>LDT（局部描述符表）</h3><blockquote>
+<p>一张GDT可以包含多个LDT，LDT的用法与GDT大致相似<br>LDT不是全局可见的，它们只对引用它们的任务可见，每个任务最多可以拥有一个LDT。另外，每一个LDT自身作为一个段存在，它们的段描述符被放在GDT中</p>
+</blockquote>
+<h3 id="IDT（中断描述符表）"><a href="#IDT（中断描述符表）" class="headerlink" title="IDT（中断描述符表）"></a>IDT（中断描述符表）</h3><blockquote>
+<p>作用：将每个异常或中断向量分别与它们的处理过程联系起来。<br>与GDT和LDT表类似，IDT也是由8字节长描述符组成的一个数组</p>
+</blockquote>
+<h3 id="生成ucore-img"><a href="#生成ucore-img" class="headerlink" title="生成ucore.img"></a>生成ucore.img</h3><pre><code>cd ucore_os_lab/labcodes/lab1
+make              //生成bootloader和对应的主引导扇区
+make qemu         //通过qemu硬件模拟器来运行bootloader</code></pre><p>至此，在./bin/下就有了<strong>ucore.img</strong>了</p>
+<h3 id="从Makefile中看ucore-img的生成"><a href="#从Makefile中看ucore-img的生成" class="headerlink" title="从Makefile中看ucore.img的生成"></a>从Makefile中看ucore.img的生成</h3><h3 id="调试ucore-img"><a href="#调试ucore-img" class="headerlink" title="调试ucore.img"></a>调试ucore.img</h3><p>tools/gdbinit</p>
+<pre><code>$ make qemu
+WARNING: Image format was not specified for &#39;bin/ucore.img&#39; and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the &#39;raw&#39; format explicitly to remove the restrictions.
+(THU.CST) os is loading ...
+
+Special kernel symbols:
+  entry  0x00100000 (phys)
+  etext  0x001031df (phys)
+  edata  0x0010ea16 (phys)
+  end    0x0010fd20 (phys)
+Kernel executable memory footprint: 64KB
+++ setup timer interrupts</code></pre><h2 id="bootmain-c源代码"><a href="#bootmain-c源代码" class="headerlink" title="bootmain.c源代码"></a>bootmain.c源代码</h2><pre><code>#include &lt;defs.h&gt;       
+//定义类型、指针的位数，以及对地址的处理
+#include &lt;x86.h&gt;        
+//定义I/O输入输出，处理描述符表的汇编指令，以及用汇编编写字符串处理函数
+#include &lt;elf.h&gt;
+//定义elf文件头以及进程头信息
+
+/* *********************************************************************
+ * This a dirt simple boot loader, whose sole job is to boot
+ * an ELF kernel image from the first IDE hard disk.
+ *
+ * DISK LAYOUT
+ *  * This program(bootasm.S and bootmain.c) is the bootloader.
+ *    It should be stored in the first sector of the disk.
+ *
+ *  * The 2nd sector onward holds the kernel image.
+ *
+ *  * The kernel image must be in ELF format.
+ *
+ * BOOT UP STEPS
+ *  * when the CPU boots it loads the BIOS into memory and executes it
+ *
+ *  * the BIOS intializes devices, sets of the interrupt routines, and
+ *    reads the first sector of the boot device(e.g., hard-drive)
+ *    into memory and jumps to it.
+ *
+ *  * Assuming this boot loader is stored in the first sector of the
+ *    hard-drive, this code takes over...
+ *
+ *  * control starts in bootasm.S -- which sets up protected mode,
+ *    and a stack so C code then run, then calls bootmain()
+ *
+ *  * bootmain() in this file takes over, reads in the kernel and jumps to it.
+ * */
+
+#define SECTSIZE        512
+#define ELFHDR          ((struct elfhdr *)0x10000)      // scratch space
+
+/* waitdisk - wait for disk ready */
+//等待磁盘就绪
+static void
+waitdisk(void) {
+    while ((inb(0x1F7) &amp; 0xC0) != 0x40)
+        /* do nothing */;
+}
+
+/* readsect - read a single sector at @secno into @dst */
+//读取段
+static void
+readsect(void *dst, uint32_t secno) {
+    // wait for disk to be ready
+    waitdisk();
+
+    outb(0x1F2, 1);                         // count = 1
+    outb(0x1F3, secno &amp; 0xFF);
+    outb(0x1F4, (secno &gt;&gt; 8) &amp; 0xFF);
+    outb(0x1F5, (secno &gt;&gt; 16) &amp; 0xFF);
+    outb(0x1F6, ((secno &gt;&gt; 24) &amp; 0xF) | 0xE0);
+    outb(0x1F7, 0x20);                      // cmd 0x20 - read sectors
+
+    // wait for disk to be ready
+    waitdisk();
+
+    // read a sector
+    //读取一个扇区
+    insl(0x1F0, dst, SECTSIZE / 4);
+}
+
+/* *
+ * readseg - read @count bytes at @offset from kernel into virtual address @va,
+ * might copy more than asked.
+ * */
+//readseg - 将@offset上的@count字节从内核读入虚拟地址@va
+//读段寄存器值
+static void
+readseg(uintptr_t va, uint32_t count, uint32_t offset) {
+    uintptr_t end_va = va + count;
+
+    // round down to sector boundary
+    //向下到扇区边界
+    va -= offset % SECTSIZE;
+
+    // translate from bytes to sectors; kernel starts at sector 1
+    //从字节转换为扇区;内核从扇区1开始
+    uint32_t secno = (offset / SECTSIZE) + 1;
+
+    // If this is too slow, we could read lots of sectors at a time.
+    // We&#39;d write more to memory than asked, but it doesn&#39;t matter --
+    // we load in increasing order.
+    for (; va &lt; end_va; va += SECTSIZE, secno ++) {
+        readsect((void *)va, secno);
+    }
+}
+
+/* bootmain - the entry of bootloader */
+void
+bootmain(void) {
+    // read the 1st page off disk
+    //从磁盘上读取段寄存器值
+    readseg((uintptr_t)ELFHDR, SECTSIZE * 8, 0);
+
+    // is this a valid ELF?
+    //ELF是否有效
+    if (ELFHDR-&gt;e_magic != ELF_MAGIC) {
+        goto bad;
+    }
+
+    struct proghdr *ph, *eph;
+
+    // load each program segment (ignores ph flags)
+    //加载每个程序段（忽略ph标志）
+    ph = (struct proghdr *)((uintptr_t)ELFHDR + ELFHDR-&gt;e_phoff);
+    eph = ph + ELFHDR-&gt;e_phnum;
+    for (; ph &lt; eph; ph ++) {
+        readseg(ph-&gt;p_va &amp; 0xFFFFFF, ph-&gt;p_memsz, ph-&gt;p_offset);
+    }
+
+    // call the entry point from the ELF header
+    // note: does not return
+    //调用ELF文件头的入口
+    ((void (*)(void))(ELFHDR-&gt;e_entry &amp; 0xFFFFFF))();
+
+bad:
+    outw(0x8A00, 0x8A00);
+    outw(0x8A00, 0x8E00);
+
+    /* do nothing */
+    while (1);
+}
+</code></pre><h3 id="defs-h"><a href="#defs-h" class="headerlink" title="defs.h"></a>defs.h</h3><pre><code>#ifndef __LIBS_DEFS_H__        //if no define 条件编译
+#define __LIBS_DEFS_H__        //如果没有定义则定义一个__LIBS_DEFS_H__
+
+#ifndef NULL
+#define NULL ((void *)0)       //定义一个（void *）类型的指针，返回地址0
+#endif
+
+#define __always_inline inline __attribute__((always_inline))
+#define __noinline __attribute__((noinline))
+#define __noreturn __attribute__((noreturn))
+
+/* Represents true-or-false values */    //表示true或false值
+typedef int bool;
+
+/* Explicitly-sized versions of integer types */      //exp合法大小的整数类型版本
+typedef char int8_t;                                  //字符类型为         8bit
+typedef unsigned char uint8_t;                        //无符号字符类型为    8bits
+typedef short int16_t;                                   //短整型为           16bits
+typedef unsigned short uint16_t;                      //无符号短整型        16bits
+typedef int int32_t;                                  //整型              32bits
+typedef unsigned int uint32_t;                          //无符号整型         32bits
+typedef long long int64_t;                              //长整型             64bits
+typedef unsigned long long uint64_t;                  //无符号长整型        64bits
+
+/* *
+ * Pointers and addresses are 32 bits long.           //指针和地址为32bits
+ * We use pointer types to represent addresses,       //用指针类型表达地址
+ * uintptr_t to represent the numerical values of addresses.    //uintptr_t表示地址的数值
+ * */                    //32位的机器上，intptr_t和uintptr_t分别是int、unsigned int的别名
+                        //提高程序可移植性
+typedef int32_t intptr_t;
+typedef uint32_t uintptr_t;
+
+/* size_t is used for memory object sizes */         //size_t用于内存对象大小
+typedef uintptr_t size_t;
+
+/* used for page numbers */                          //用于页码
+typedef size_t ppn_t;
+
+/* *
+ * Rounding operations (efficient when n is a power of 2)      //舍入运算（当n为2的幂时有效）
+ * Round down to the nearest multiple of n                     //向下舍入到n的最接近的倍数
+ * */
+#define ROUNDDOWN(a, n) ({                                          \
+            size_t __a = (size_t)(a);                               \
+            (typeof(a))(__a - __a % (n));                           \
+        })
+
+/* Round up to the nearest multiple of n */                 //向上舍入到n的最接近的倍数
+#define ROUNDUP(a, n) ({                                            \
+            size_t __n = (size_t)(n);                               \
+            (typeof(a))(ROUNDDOWN((size_t)(a) + __n - 1, __n));     \
+        })
+
+/* Return the offset of &#39;member&#39; relative to the beginning of a struct type */
+//返回&#39;member&#39;相对于struct类型开头的偏移量
+#define offsetof(type, member)                                      \
+    ((size_t)(&amp;((type *)0)-&gt;member))
+
+/* *
+ * to_struct - get the struct from a pointer                 //to_struct - 从指针获取结构
+ * @ptr:    a struct pointer of member                        //成员的结构指针
+ * @type:   the type of the struct this is embedded in      //嵌入的结构的类型
+ * @member: the name of the member within the struct         //结构中成员的名称
+ * */
+#define to_struct(ptr, type, member)                               \
+    ((type *)((char *)(ptr) - offsetof(type, member)))
+
+#endif /* !__LIBS_DEFS_H__ */
+</code></pre><h3 id="x86-h"><a href="#x86-h" class="headerlink" title="x86.h"></a>x86.h</h3><pre><code>#ifndef __LIBS_X86_H__
+#define __LIBS_X86_H__
+
+#include &lt;defs.h&gt;
+
+
+//定义除法
+#define do_div(n, base) ({                                        \
+    unsigned long __upper, __low, __high, __mod, __base;        \
+    __base = (base);                                            \
+    asm(&quot;&quot; : &quot;=a&quot; (__low), &quot;=d&quot; (__high) : &quot;A&quot; (n));            \
+    __upper = __high;                                            \
+    if (__high != 0) {                                            \
+        __upper = __high % __base;                                \
+        __high = __high / __base;                                \
+    }                                                            \
+    asm(&quot;divl %2&quot; : &quot;=a&quot; (__low), &quot;=d&quot; (__mod)                    \
+        : &quot;rm&quot; (__base), &quot;0&quot; (__low), &quot;1&quot; (__upper));            \
+    asm(&quot;&quot; : &quot;=A&quot; (n) : &quot;a&quot; (__low), &quot;d&quot; (__high));                \
+    __mod;                                                        \
+ })
+
+//定义静态内联函数，将使用inline修饰的函数内容, 内联到函数调用的位置
+//inline修饰的函数, 不会再调用这个函数的时候, 调用call方法, 就不会将函数压栈, 产生内存消耗
+//内联函数只能对一些小型的函数起作用, 如果函数中消耗的内存很大, 比如for循环, 则内联函数就会默认失效
+//访问硬件或寄存器
+//inb 从I/O端口读取一个字节(BYTE, HALF-WORD) ;
+//outb 向I/O端口写入一个字节（BYTE, HALF-WORD） ;
+//insl 从I/O端口读取一个字（WORD，即两个字节） ;
+//outw 向I/O端口写入一个字（WORD，即两个字节） ;
+//read_ebp 读取扩展基址指针寄存器
+static inline uint8_t inb(uint16_t port) __attribute__((always_inline));
+static inline void insl(uint32_t port, void *addr, int cnt) __attribute__((always_inline));
+static inline void outb(uint16_t port, uint8_t data) __attribute__((always_inline));
+static inline void outw(uint16_t port, uint16_t data) __attribute__((always_inline));
+static inline uint32_t read_ebp(void) __attribute__((always_inline));
+
+/* Pseudo-descriptors used for LGDT, LLDT(not used) and LIDT instructions. */
+//用于LGDT，LLDT（未使用）和LIDT指令的伪描述符
+//汇编指令
+//LGDT：加载全局描述符
+//LLDT：加载局部描述符
+//LIDT：加载中断描述符
+struct pseudodesc {
+    uint16_t pd_lim;        // Limit
+    uint32_t pd_base;        // Base address
+} __attribute__ ((packed));
+
+//lidt加载中断描述符表
+//CLI禁止中断发生
+//STI允许中断发生
+//LTR指令是专门用于装载任务状态段寄存器TR的指
+static inline void lidt(struct pseudodesc *pd) __attribute__((always_inline));
+static inline void sti(void) __attribute__((always_inline));
+static inline void cli(void) __attribute__((always_inline));
+static inline void ltr(uint16_t sel) __attribute__((always_inline));
+
+static inline uint8_t
+inb(uint16_t port) {
+    uint8_t data;
+    asm volatile (&quot;inb %1, %0&quot; : &quot;=a&quot; (data) : &quot;d&quot; (port));
+    return data;
+}
+
+static inline void
+insl(uint32_t port, void *addr, int cnt) {
+    asm volatile (
+            &quot;cld;&quot;
+            &quot;repne; insl;&quot;
+            : &quot;=D&quot; (addr), &quot;=c&quot; (cnt)
+            : &quot;d&quot; (port), &quot;0&quot; (addr), &quot;1&quot; (cnt)
+            : &quot;memory&quot;, &quot;cc&quot;);
+}
+
+static inline void
+outb(uint16_t port, uint8_t data) {
+    asm volatile (&quot;outb %0, %1&quot; :: &quot;a&quot; (data), &quot;d&quot; (port));
+}
+
+static inline void
+outw(uint16_t port, uint16_t data) {
+    asm volatile (&quot;outw %0, %1&quot; :: &quot;a&quot; (data), &quot;d&quot; (port));
+}
+
+static inline uint32_t
+read_ebp(void) {
+    uint32_t ebp;
+    asm volatile (&quot;movl %%ebp, %0&quot; : &quot;=r&quot; (ebp));
+    return ebp;
+}
+
+static inline void
+lidt(struct pseudodesc *pd) {
+    asm volatile (&quot;lidt (%0)&quot; :: &quot;r&quot; (pd));
+}
+
+static inline void
+sti(void) {
+    asm volatile (&quot;sti&quot;);
+}
+
+static inline void
+cli(void) {
+    asm volatile (&quot;cli&quot;);
+}
+
+static inline void
+ltr(uint16_t sel) {
+    asm volatile (&quot;ltr %0&quot; :: &quot;r&quot; (sel));
+}
+
+//定义字符串处理函数
+static inline int __strcmp(const char *s1, const char *s2) __attribute__((always_inline));
+static inline char *__strcpy(char *dst, const char *src) __attribute__((always_inline));
+static inline void *__memset(void *s, char c, size_t n) __attribute__((always_inline));
+static inline void *__memmove(void *dst, const void *src, size_t n) __attribute__((always_inline));
+static inline void *__memcpy(void *dst, const void *src, size_t n) __attribute__((always_inline));
+
+
+//asm用来声明一个内联汇编表达式，任何内联汇编表达式都是以它开头，必不可少
+//volatile 是可选的，假如用了它，则是向GCC 声明不答应对该内联汇编优化，
+//否则当 使用了优化选项(-O)进行编译时，GCC 将会根据自己的判定决定是否将这个内联汇编表达式中的指令优化掉
+#ifndef __HAVE_ARCH_STRCMP
+#define __HAVE_ARCH_STRCMP
+static inline int
+__strcmp(const char *s1, const char *s2) {
+    int d0, d1, ret;
+    asm volatile (
+            &quot;1: lodsb;&quot;
+            &quot;scasb;&quot;
+            &quot;jne 2f;&quot;
+            &quot;testb %%al, %%al;&quot;
+            &quot;jne 1b;&quot;
+            &quot;xorl %%eax, %%eax;&quot;
+            &quot;jmp 3f;&quot;
+            &quot;2: sbbl %%eax, %%eax;&quot;
+            &quot;orb $1, %%al;&quot;
+            &quot;3:&quot;
+            : &quot;=a&quot; (ret), &quot;=&amp;S&quot; (d0), &quot;=&amp;D&quot; (d1)
+            : &quot;1&quot; (s1), &quot;2&quot; (s2)
+            : &quot;memory&quot;);
+    return ret;
+}
+
+#endif /* __HAVE_ARCH_STRCMP */
+
+#ifndef __HAVE_ARCH_STRCPY
+#define __HAVE_ARCH_STRCPY
+static inline char *
+__strcpy(char *dst, const char *src) {
+    int d0, d1, d2;
+    asm volatile (
+            &quot;1: lodsb;&quot;
+            &quot;stosb;&quot;
+            &quot;testb %%al, %%al;&quot;
+            &quot;jne 1b;&quot;
+            : &quot;=&amp;S&quot; (d0), &quot;=&amp;D&quot; (d1), &quot;=&amp;a&quot; (d2)
+            : &quot;0&quot; (src), &quot;1&quot; (dst) : &quot;memory&quot;);
+    return dst;
+}
+#endif /* __HAVE_ARCH_STRCPY */
+
+#ifndef __HAVE_ARCH_MEMSET
+#define __HAVE_ARCH_MEMSET
+static inline void *
+__memset(void *s, char c, size_t n) {
+    int d0, d1;
+    asm volatile (
+            &quot;rep; stosb;&quot;
+            : &quot;=&amp;c&quot; (d0), &quot;=&amp;D&quot; (d1)
+            : &quot;0&quot; (n), &quot;a&quot; (c), &quot;1&quot; (s)
+            : &quot;memory&quot;);
+    return s;
+}
+#endif /* __HAVE_ARCH_MEMSET */
+
+#ifndef __HAVE_ARCH_MEMMOVE
+#define __HAVE_ARCH_MEMMOVE
+static inline void *
+__memmove(void *dst, const void *src, size_t n) {
+    if (dst &lt; src) {
+        return __memcpy(dst, src, n);
+    }
+    int d0, d1, d2;
+    asm volatile (
+            &quot;std;&quot;
+            &quot;rep; movsb;&quot;
+            &quot;cld;&quot;
+            : &quot;=&amp;c&quot; (d0), &quot;=&amp;S&quot; (d1), &quot;=&amp;D&quot; (d2)
+            : &quot;0&quot; (n), &quot;1&quot; (n - 1 + src), &quot;2&quot; (n - 1 + dst)
+            : &quot;memory&quot;);
+    return dst;
+}
+#endif /* __HAVE_ARCH_MEMMOVE */
+
+#ifndef __HAVE_ARCH_MEMCPY
+#define __HAVE_ARCH_MEMCPY
+static inline void *
+__memcpy(void *dst, const void *src, size_t n) {
+    int d0, d1, d2;
+    asm volatile (
+            &quot;rep; movsl;&quot;
+            &quot;movl %4, %%ecx;&quot;
+            &quot;andl $3, %%ecx;&quot;
+            &quot;jz 1f;&quot;
+            &quot;rep; movsb;&quot;
+            &quot;1:&quot;
+            : &quot;=&amp;c&quot; (d0), &quot;=&amp;D&quot; (d1), &quot;=&amp;S&quot; (d2)
+            : &quot;0&quot; (n / 4), &quot;g&quot; (n), &quot;1&quot; (dst), &quot;2&quot; (src)
+            : &quot;memory&quot;);
+    return dst;
+}
+#endif /* __HAVE_ARCH_MEMCPY */
+
+#endif /* !__LIBS_X86_H__ */
+</code></pre><h3 id="elf-h"><a href="#elf-h" class="headerlink" title="elf.h"></a>elf.h</h3><pre><code>#ifndef __LIBS_ELF_H__
+#define __LIBS_ELF_H__
+
+#include &lt;defs.h&gt;
+
+#define ELF_MAGIC    0x464C457FU            // &quot;\x7FELF&quot; in little endian
+
+//Magic number： 16字节是用来标识ELF 文件的平台属性，比如字长，字节序，ELF 文件版本。
+//在加载的时候，首先会确认魔数的正确性，不正确的话就拒绝加载
+
+/* file header */
+struct elfhdr {
+    uint32_t e_magic;     // must equal ELF_MAGIC
+    uint8_t e_elf[12];
+    uint16_t e_type;      // 1=relocatable, 2=executable, 3=shared object, 4=core image
+    uint16_t e_machine;   // 3=x86, 4=68K, etc.
+    uint32_t e_version;   // file version, always 1
+    uint32_t e_entry;     // entry point if executable
+    uint32_t e_phoff;     // file position of program header or 0
+    uint32_t e_shoff;     // file position of section header or 0
+    uint32_t e_flags;     // architecture-specific flags, usually 0
+    uint16_t e_ehsize;    // size of this elf header
+    uint16_t e_phentsize; // size of an entry in program header
+    uint16_t e_phnum;     // number of entries in program header or 0
+    uint16_t e_shentsize; // size of an entry in section header
+    uint16_t e_shnum;     // number of entries in section header or 0
+    uint16_t e_shstrndx;  // section number that contains section name strings
+};
+
+/* program section header */
+struct proghdr {
+    uint32_t p_type;   // loadable code or data, dynamic linking info,etc.
+    uint32_t p_offset; // file offset of segment
+    uint32_t p_va;     // virtual address to map segment
+    uint32_t p_pa;     // physical address, not used
+    uint32_t p_filesz; // size of segment in file
+    uint32_t p_memsz;  // size of segment in memory (bigger if contains bss）
+    uint32_t p_flags;  // read/write/execute bits
+    uint32_t p_align;  // required alignment, invariably hardware page size
+};
+
+#endif /* !__LIBS_ELF_H__ */
+</code></pre>
                             <hr>
                         </div>
                         <br>
@@ -264,7 +749,7 @@ _hmt.push(['_setPageTag', id, value]);
         var typed = new Typed('#subtitle', {
           strings: [
             '  ',
-            "一步一步构建Ucore操作系统&nbsp;",
+            "一步一步构建Ucore操作系统(Lab 0)&nbsp;",
         ],
         cursorChar: "_",
         typeSpeed: 70,
