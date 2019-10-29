@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content>
+    <meta name="author" content="Crazy-wen">
+    <meta name="keywords" content>
+    <title>GPU与CPU破解工具破解windows用户密码 ~ Crazy-wen&#39;s Blog</title>
+    <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+    <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+    <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+    
+        <link rel="stylesheet" href="/lib/prettify/atelier-seaside-light.min.css">
+    
+    <link rel="stylesheet" href="/css/main.css">
+    
+    
+<script type="text/javascript">
+
+ <script>
+var _hmt = _hmt || [];
+_hmt.push(['_setPageTag', id, value]);
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d2c7132109d78f54ab072ec83dfe40e1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+</head>
+
+
+<body>
+<header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+<div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Crazy-wen&#39;s Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto text-center">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/archives/">Archives</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/categories/">Categories</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/tags/">Tags</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+</nav>
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;background-size: cover;">
+        <div class="full-bg-img">
+            <div class="mask rgba-black-light flex-center">
+                <div class="container text-center white-text wow fadeInUp">
+                    <span  class="h1"  id="subtitle">
+                        
+                    </span>
+                    
+                        <br>
+                        <p>Friday, October 25th 2019, 7:46 pm</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+        
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-md">
+                <div class="py-5 z-depth-3 board">
+                    <div class="post-content mx-auto">
+                        <div class="markdown-body">
+                            <h2 id="生成sgbuser用户"><a href="#生成sgbuser用户" class="headerlink" title="生成sgbuser用户"></a>生成sgbuser用户</h2><ul>
+<li>使用cmd（管理员）打开adduser.vbe</li>
+<li>输入学号4052017061，创建用户</li>
+</ul>
+<pre><code>C:\Users\hihi\Desktop\7.口令破解&gt;net user
+
+\\WIN-4B0U98I4KIU 的用户帐户
+
+-------------------------------------------------------------------------------
+Administrator            Guest                    hihi
+sgbuser
+命令成功完成。
+</code></pre><h2 id="获取sgbuser用户的NTLM-hash值"><a href="#获取sgbuser用户的NTLM-hash值" class="headerlink" title="获取sgbuser用户的NTLM hash值"></a>获取sgbuser用户的NTLM hash值</h2><ul>
+<li>在cmd中运行Pwdump7.exe</li>
+</ul>
+<pre><code class="shell">C:\Users\hihi\Desktop\7.口令破解\pwdump7&gt;Pwdump7.exe
+Pwdump v7.1 - raw password extractor
+Author: Andres Tarasco Acuna
+url: http://www.514.es
+
+sgbuser:1006:NO PASSWORD*********************:6C9FD3FE839FC1D69B697154D8654D4E:::
+</code></pre>
+<ul>
+<li>NTLM hash值为<code>6C9FD3FE839FC1D69B697154D8654D4E</code><h2 id="Hashcat破解（使用GPU破解）"><a href="#Hashcat破解（使用GPU破解）" class="headerlink" title="Hashcat破解（使用GPU破解）"></a>Hashcat破解（使用GPU破解）</h2></li>
+</ul>
+<p>使用命令<code>hashcat -m 1000 6C9FD3FE839FC1D69B697154D8654D4E  -a 3 ?l?l?l?l?l?l?l?l</code></p>
+<pre><code class="shell">b49a2f6af90fc7303767cc8eaf1d2042:wvpiobrw
+
+Session..........: hashcat
+Status...........: Cracked
+Hash.Type........: NTLM
+Hash.Target......: b49a2f6af90fc7303767cc8eaf1d2042
+Time.Started.....: Sat Oct 26 12:57:10 2019 (3 mins, 46 secs)
+Time.Estimated...: Sat Oct 26 13:00:56 2019 (0 secs)
+Guess.Mask.......: ?l?l?l?l?l?l?l?l [8]
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:   817.6 MH/s (7.34ms) @ Accel:64 Loops:32 Thr:1024 Vec:1
+Recovered........: 1/1 (100.00%) Digests, 1/1 (100.00%) Salts
+Progress.........: 184718721024/208827064576 (88.46%)
+Rejected.........: 0/184718721024 (0.00%)
+Restore.Point....: 10420224/11881376 (87.70%)
+Restore.Sub.#1...: Salt:0 Amplifier:7968-8000 Iteration:0-32
+Candidates.#1....: hwywfvgj -&gt; ewybhadx
+
+Started: Sat Oct 26 12:56:59 2019
+Stopped: Sat Oct 26 13:00:58 2019</code></pre>
+<ul>
+<li>密码为wvpiobrw</li>
+<li>耗时4分钟破解完成</li>
+</ul>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><ul>
+<li>使用<code>utkoibnu</code>密码登陆sgbuser用户</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/10/25/KwtDKO.png" alt="KwtDKO.png"></p>
+<p><strong>成功！！！</strong></p>
+<h2 id="l0phtCrack-7破解（使用GPU破解）"><a href="#l0phtCrack-7破解（使用GPU破解）" class="headerlink" title="l0phtCrack 7破解（使用GPU破解）"></a>l0phtCrack 7破解（使用GPU破解）</h2><ul>
+<li><p>本来是用lc5破解的，但是破了一天也没破出来</p>
+</li>
+<li><p>于是使用lc7破解<br><img src="https://s2.ax1x.com/2019/10/26/Krp4fI.png" alt="Krp4fI.png"><br><img src="https://s2.ax1x.com/2019/10/26/KrpIpt.png" alt="KrpIpt.png"></p>
+</li>
+<li><p>密码为wvpiobrw</p>
+</li>
+<li><p>耗时2m22s破解完成</p>
+</li>
+</ul>
+<h2 id="Saminside破解（使用CPU破解）"><a href="#Saminside破解（使用CPU破解）" class="headerlink" title="Saminside破解（使用CPU破解）"></a>Saminside破解（使用CPU破解）</h2><p><img src="https://s2.ax1x.com/2019/10/26/Krp7X8.png" alt="Krp7X8.png"><br><img src="https://s2.ax1x.com/2019/10/26/Krpo1P.png" alt="Krpo1P.png"></p>
+<ul>
+<li>密码为wvpiobrw</li>
+<li>耗时2h:19m破解完成</li>
+</ul>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><ul>
+<li>使用GPU破解速度显著大于CPU破解<blockquote>
+<p>GPU对cache依赖小，因为他可以有效的hide memory latency。这个是通过高并行来实现的。每个GPU核有64个warp（相当于CPU的hardware threads），而CPU每个核的hardware thread一般只有2个。这也就是说，一个GPU核可以同时存64个线程，而CPU只能存2个。在GPU中，context switch到另外63个线程中的任意一个都不需要读写内存。而CPU中只有换到另外一个线程的时候才不用读写内存。这个的结果就是GPU在线程之间做context switch的开销非常小因为他另一个线程寄存器的值一般都在核的寄存器里。而CPU做context switch的开销往往很大因为要把当前线程写入内存再从内存把目标线程的寄存器的值读出来。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="密码生成原理"><a href="#密码生成原理" class="headerlink" title="密码生成原理"></a>密码生成原理</h2><ul>
+<li>.vbe文件其实是.vbs文件加密后形式</li>
+<li>使用DecodeScripting_Pro.exe反编码</li>
+</ul>
+<pre><code class="vb">dim xnumber,lastlet,warn
+xnumber=inputbox(&quot;input your number:&quot;,&quot;Messagebox&quot;)
+xnumlen = Len(xnumber)
+warn = &quot;Wrong number,please try again!&quot;
+If xnumlen &lt; 3 Then
+   msgbox(warn)
+   wscript.quit
+Else
+   lastlet=Right(xnumber,3)
+   If Not isnumeric(lastlet) then
+      msgbox(warn)
+      wscript.quit
+   End if
+End If
+&#39;msgbox(lastlet)
+&#39;get the number to chara
+arr = array(&quot;o&quot;,&quot;i&quot;,&quot;z&quot;,&quot;m&quot;,&quot;f&quot;,&quot;s&quot;,&quot;b&quot;,&quot;l&quot;,&quot;g&quot;,&quot;q&quot;)
+t=Left(lastlet,1)
+tempstr=arr(t)
+&#39;msgbox(tempstr)
+t=Mid(lastlet,2,1)
+&#39;msgbox(t)
+tempstr=tempstr+arr(t)
+t=Right(lastlet,1)
+tempstr=tempstr+arr(t)
+&#39;msgbox(tempstr)
+lastlet=tempstr
+
+&#39;å–ä¸‰ä¸ªéšæœºå­—æ¯?
+dim letters
+dim xrand
+dim lett
+letters=&quot;acdehjknprtuvwxy&quot;
+for i=1 to 3
+  xrand=GetRandomMath(1,16)
+  lett=lett+Mid(letters, xrand, 1)
+Next
+&#39;msgbox (lett)
+&#39;letcomb=lett+lastlet
+&#39;msgbox (letcomb)
+&#39;combine string
+x=Right(lastlet,1)
+y=Left(lastlet,1)
+&#39;msgbox(x)
+&#39;msgbox(y)
+insert1=GetRandomMath(1,3)
+&#39;msgbox(insert1)
+lettemp=Left(lett,insert1)+x+Right(lett,3-insert1)
+&#39;msgbox(lettemp)
+insert2=GetRandomMath(1,4)
+&#39;msgbox(insert2)
+lettemp=Left(lettemp,insert2)+y+Right(lettemp,4-insert2)
+&#39;msgbox(lettemp)
+letcomb=lettemp+Mid(lastlet,2,1)
+&#39;msgbox (letcomb)
+
+&#39;at last add two random letters
+for i=1 to 2
+  xrand=GetRandomMath(1,16)
+  letcomb=letcomb+Mid(letters, xrand, 1)
+Next
+&#39;msgbox (letcomb)
+
+dim wsh
+dim str
+str=&quot;net user sgbuser &quot;+letcomb+&quot; /add&quot;
+set wsh=CreateObject(&quot;Wscript.Shell&quot;)
+wsh.run str,0
+wsh.run &quot;net localgroup administrators sgbuser /add&quot;,0
+
+Function GetRandomMath(m,n)
+  Randomize
+  GetRandomMath = Int(((n-m+1) * Rnd) + m)
+End Function </code></pre>
+<ul>
+<li>有C的基础基本都可以看懂</li>
+<li>GetRandomMath()此函数取随机数，所以想要通过收集密码找到规律难度太大</li>
+</ul>
+
+                            <hr>
+                        </div>
+                        <br>
+                        <div>
+                            
+                            <p>
+                                <i class="iconfont icon-tag"></i>
+                                
+                            </p>
+                            
+                                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="d-none d-lg-block col-lg-2 toc-container">
+            
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i> Toc:</p> 
+    <div id="tocbot"></div>
+  </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container comments mx-auto" id="comments">
+        
+            <br><br>
+            
+            <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>               
+        var disqus_shortname = '';
+        var disqus_config = function () {
+            this.page.url = 'http://127.0.0.1:4000/2019/10/25/GPU与CPU破解工具破解windows用户密码/'; 
+            this.page.identifier = '/2019/10/25/GPU与CPU破解工具破解windows用户密码/';
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//'+disqus_shortname+'.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</div>
+    
+</main>
+
+<footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/0x2e/Material-T" target="_blank" rel="nofollow noopener"> <b>Material-T</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+  <!-- SCRIPTS -->
+  <script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+  <script src="/lib/mdbootstrap/js/popper.min.js"></script>
+  <script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+  <script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+  <script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+  <script src="/js/main.js"></script>
+  
+    
+      <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+    
+    <script src="/js/post.js"></script>
+  
+  
+    <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+    <script>
+      $(document).ready(function(){
+        $('pre').addClass('prettyprint linenums');
+        prettyPrint();
+      })
+    </script>
+  
+  
+    <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+    <script>
+        var typed = new Typed('#subtitle', {
+          strings: [
+            '  ',
+            "GPU与CPU破解工具破解windows用户密码&nbsp;",
+        ],
+        cursorChar: "_",
+        typeSpeed: 70,
+        startDelay: 300, //开始之前延迟300毫秒
+        loop: false,
+        });
+        $(".typed-cursor").addClass("h2");
+    </script>
+  
+  
+    <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+    <script>
+      anchors.options = {
+        placement: "right",
+        visible: "true",
+        
+      };
+      anchors.add(".post-content > h1,h2,h3,h4,h5,h6");
+    </script>
+  
+
+  
+</body>
+</html>

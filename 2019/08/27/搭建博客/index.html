@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
     <link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
     
-        <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+        <link rel="stylesheet" href="/lib/prettify/atelier-seaside-light.min.css">
     
     <link rel="stylesheet" href="/css/main.css">
     
@@ -124,16 +124,17 @@ Github</code></pre><p>本来想用jekyll搭建博客，但是Mac好像不太想�
 <p><a href="https://www.jianshu.com/p/cb0750324e26" target="_blank" rel="noopener">用Hexo搭建博客流程</a></p>
 <p><a href="https://blog.csdn.net/ArthurCaoMH/article/details/89300713" target="_blank" rel="noopener">VS Code插件与Markdown语法</a></p>
 <p><a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo 主题</a></p>
+<p><a href="https://blog.csdn.net/zhangyu4863/article/details/84422335" target="_blank" rel="noopener">markdown 插入代码语言类型</a></p>
 <h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>换主题时出现No layout:index.html<br>查看hexo插件安装情况</p>
 <pre><code>npm ls --depth 0 
 出现以下信息
 npm ERR! peer dep missing: eslint@&gt;= 4.12.1, required by babel-eslint@10.0.1
-npm install eslint --save     #安装缺失的包</code></pre><h2 id="目录介绍"><a href="#目录介绍" class="headerlink" title="目录介绍"></a>目录介绍</h2><h2 id="优化Material-T主题"><a href="#优化Material-T主题" class="headerlink" title="优化Material-T主题"></a>优化Material-T主题</h2><h3 id="改变字体大小"><a href="#改变字体大小" class="headerlink" title="改变字体大小"></a>改变字体大小</h3><p>在/Material-T-1.1.0/source/lib/github-markdown下，文件名为github-markdown.min.css，查找到第一个font-size出现的位置，默认为14px，我改为20px</p>
+npm install eslint --save     #安装缺失的包</code></pre><h2 id="优化Material-T主题"><a href="#优化Material-T主题" class="headerlink" title="优化Material-T主题"></a>优化Material-T主题</h2><h3 id="改变正文字体大小"><a href="#改变正文字体大小" class="headerlink" title="改变正文字体大小"></a>改变正文字体大小</h3><p>在/Material-T-1.1.0/source/lib/github-markdown下，文件名为github-markdown.min.css，查找到第一个font-size出现的位置，默认为14px，我改为20px</p>
+<h3 id="改变正文字体粗细"><a href="#改变正文字体粗细" class="headerlink" title="改变正文字体粗细"></a>改变正文字体粗细</h3><p>在/Material-T-1.1.0/source/lib/mdbootstrap/css/mdb.min.css中，查找到第一个font-weight出现的位置，默认为300，我改为375</p>
 <h3 id="px、em、rem区别介绍"><a href="#px、em、rem区别介绍" class="headerlink" title="px、em、rem区别介绍"></a>px、em、rem区别介绍</h3><p>px像素（Pixel）是相对长度单位，是相对于显示器屏幕分辨率而言的。em也是相对长度单位。相对于当前对象内文本的字体尺寸。如当前对行内文本的字体尺寸未被人为设置，则相对于浏览器的默认字体尺寸。<br>rem是CSS3新增的一个相对单位（root em，根em），这个单位引起了广泛关注。这个单位与em有什么区别呢？区别在于使用rem为元素设定字体大小时，仍然是相对大小，但相对的只是HTML根元素。这个单位可谓集相对大小和绝对大小的优点于一身，通过它既可以做到只修改根元素就成比例地调整所有字体大小，又可以避免字体大小逐层复合的连锁反应。</p>
 <h3 id="添加阅读量模块"><a href="#添加阅读量模块" class="headerlink" title="添加阅读量模块"></a>添加阅读量模块</h3><h3 id="加速博客访问速度"><a href="#加速博客访问速度" class="headerlink" title="加速博客访问速度"></a>加速博客访问速度</h3><ul>
 <li>压缩页面中的背景图片</li>
 <li>减少页面渲染效果</li>
-<li></li>
 </ul>
 
                             <hr>
@@ -143,6 +144,8 @@ npm install eslint --save     #安装缺失的包</code></pre><h2 id="目录介�
                             
                             <p>
                                 <i class="iconfont icon-tag"></i>
+                                
+                                    <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%AE%A2">博客</a>
                                 
                             </p>
                             

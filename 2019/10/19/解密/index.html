@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content>
+    <meta name="author" content="Crazy-wen">
+    <meta name="keywords" content>
+    <title>解密 ~ Crazy-wen&#39;s Blog</title>
+    <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+    <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+    <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+    
+        <link rel="stylesheet" href="/lib/prettify/atelier-seaside-light.min.css">
+    
+    <link rel="stylesheet" href="/css/main.css">
+    
+    
+<script type="text/javascript">
+
+ <script>
+var _hmt = _hmt || [];
+_hmt.push(['_setPageTag', id, value]);
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d2c7132109d78f54ab072ec83dfe40e1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+</head>
+
+
+<body>
+<header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+<div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Crazy-wen&#39;s Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto text-center">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/archives/">Archives</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/categories/">Categories</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/tags/">Tags</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+</nav>
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;background-size: cover;">
+        <div class="full-bg-img">
+            <div class="mask rgba-black-light flex-center">
+                <div class="container text-center white-text wow fadeInUp">
+                    <span  class="h1"  id="subtitle">
+                        
+                    </span>
+                    
+                        <br>
+                        <p>Saturday, October 19th 2019, 1:11 am</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+        
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-md">
+                <div class="py-5 z-depth-3 board">
+                    <div class="post-content mx-auto">
+                        <div class="markdown-body">
+                            <h2 id="解密word2010"><a href="#解密word2010" class="headerlink" title="解密word2010"></a>解密word2010</h2><blockquote>
+<p>由于我使用的是Mac系统，因此在虚拟机上使用windows的软件破解密码会很慢，之前也接触过一点hashcat，于是就想到使用hashcat破解密码</p>
+</blockquote>
+<ul>
+<li>破解之前还需要获得word的hash值，使用如下软件[<a href="http://www.openwall.com/john/j/john-1.8.0-jumbo-1.tar.gz][1]" target="_blank" rel="noopener">http://www.openwall.com/john/j/john-1.8.0-jumbo-1.tar.gz][1]</a></li>
+<li>从压缩包中获取 office2john.py 文件，最后执行：<pre><code class="bash">office2john.py filename.docm &gt; hash.txt</code></pre>
+<ul>
+<li>获得hash后，还需要去掉其中的不必要的信息：<code>filename.docm::</code>….</li>
+</ul>
+</li>
+<li>获得正确的hash值后即可开始解密，不同的office版本使用的命令也不一样，本次破解office2010，于是使用<code>-m 9500</code>参数</li>
+<li>根据提示，文档nnn.docm的打开口令由6位小写英文字母构成，其中第3位为”q”,倒数第2位为“b”</li>
+<li>于是使用以下命令破解<pre><code class="bash">hashcat -m 9500 hash.txt -a 3 ?l?lq?lb?l -w 3 –O</code></pre>
+</li>
+<li>发生错误</li>
+</ul>
+<pre><code class="shell">hashcat (v5.0.0-85-g240f6298) starting...
+
+OpenCL Platform #1: Apple
+=========================
+* Device #1: Intel(R) Core(TM) i5-7267U CPU @ 3.10GHz, skipped.
+* Device #2: Intel(R) Iris(TM) Plus Graphics 650, 384/1536 MB allocatable, 48MCU
+
+Hashes: 1 digests; 1 unique digests, 1 unique salts
+Bitmaps: 16 bits, 65536 entries, 0x0000ffff mask, 262144 bytes, 5/13 rotates
+
+Applicable optimizers:
+* Zero-Byte
+* Single-Hash
+* Single-Salt
+* Brute-Force
+* Slow-Hash-SIMD-LOOP
+
+Minimum password length supported by kernel: 0
+Maximum password length supported by kernel: 256
+
+Watchdog: Hardware monitoring interface not found on your system.
+Watchdog: Temperature abort trigger disabled.
+
+clBuildProgram(): CL_BUILD_PROGRAM_FAILURE
+
+&lt;program source&gt;:8:10: fatal error: &#39;inc_vendor.cl&#39; file not found
+#include &quot;inc_vendor.cl&quot;
+         ^
+
+* Device #2: Kernel /usr/local/share/hashcat/OpenCL/m09500-pure.cl build failed - proceeding without this device.</code></pre>
+<blockquote>
+<p>查阅资料后解决方法：<br>在OpenCl文件夹下执行命令即可成功，原因是找不到m09500-pure.cl文件，在OpenCl下就有此文件</p>
+</blockquote>
+<p>在该目录下执行<code>hashcat -m 9500 hash.txt -a 3 ?l?lq?lb?l -w 3 –O</code><br>** Cracked!!**，密码为wlqgbf</p>
+<pre><code class="bash">$office$*2010*100000*128*16*3e1aa79b0839a6203d713995bbdddf3b*afec4cdcce8950ed1c80b8d44f7ebecd*acd05b1f47fd56ebcfac29c9211199a0c6bda2c30cf204f8f0094d1a0e00cdbb:wlqgbf
+
+Session..........: hashcat
+Status...........: Cracked
+Hash.Type........: MS Office 2010
+Hash.Target......: $office$*2010*100000*128*16*3e1aa79b0839a6203d71399...00cdbb
+Time.Started.....: Sat Oct 19 10:25:50 2019 (2 mins, 49 secs)
+Time.Estimated...: Sat Oct 19 10:28:39 2019 (0 secs)
+Guess.Mask.......: ?l?lq?lb?l [6]
+Guess.Queue......: 1/1 (100.00%)
+Speed.#2.........:     1984 H/s (1.05ms) @ Accel:64 Loops:16 Thr:256 Vec:1
+Recovered........: 1/1 (100.00%) Digests, 1/1 (100.00%) Salts
+Progress.........: 333944/456976 (73.08%)
+Rejected.........: 0/333944 (0.00%)
+Restore.Point....: 0/17576 (0.00%)
+Restore.Sub.#2...: Salt:0 Amplifier:18-19 Iteration:99984-100000
+Candidates.#2....: waquba -&gt; wqqfbq
+
+</code></pre>
+<h2 id="宏命令破解"><a href="#宏命令破解" class="headerlink" title="宏命令破解"></a>宏命令破解</h2><ul>
+<li><p>将nm.docm改为nm.zip</p>
+</li>
+<li><p>使用winrar打开nm.zip，找到<code>word/vbaProject.bin</code>，将其解压出来</p>
+</li>
+<li><p>使用<code>010 Editor</code>打开<code>vbaProject.bin</code></p>
+</li>
+<li><p>搜索字符串DPB，将其改为DPX，保存<br><a href="https://imgchr.com/i/KnIY9K" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/10/19/KnIY9K.md.png" alt="KnIY9K.md.png"></a><br><a href="https://imgchr.com/i/KnI8tx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/10/19/KnI8tx.md.png" alt="KnI8tx.md.png"></a></p>
+</li>
+<li><p>使用修改后的vbaProject.bin替换掉<code>nm.zip/word/vbaProject.bin</code></p>
+</li>
+<li><p>将nm.zip重新改为nm.docm</p>
+</li>
+</ul>
+<ul>
+<li>打开nm.docm，出现许多警告，一直点是<br><a href="https://imgchr.com/i/KnIUje" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/10/19/KnIUje.md.png" alt="KnIUje.md.png"></a></li>
+<li>打开宏编辑器</li>
+<li>查看Dialog的工程属性-&gt;保护-&gt;随便输入密码-&gt;确定后出现源代码</li>
+</ul>
+<p><a href="https://imgchr.com/i/KnIl7R" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/10/19/KnIl7R.md.png" alt="KnIl7R.md.png"></a></p>
+<pre><code class="bash">Private Sub CB_OK_Click()
+Dim strpasw As String
+Dim strdec As String
+Dim strusrinput As String
+Dim t As String
+t = ChrW(21152) &amp; ChrW(27833) &amp; ChrW(21543) &amp; ChrW(65292) &amp; ChrW(21516) &amp; ChrW(23398) &amp; ChrW(20204) &amp; ChrW(65281)
+strusrinput = Dialog.TextBox_Pasw
+If (strusrinput &lt;&gt; &quot;&quot;) Then
+strusout = Encode(strusrinput, t)
+If (strusout = Dialog.Label2.Caption) Then
+strpasw = strusout
+strdec = Decode(&quot;ΧЙβяГКΓアGＪアиАΛτкΗФΕβí┇ヴЧíξΛρηаoЁあаУθǖ~уЕüúдкY┤ィξ&quot;, strpasw)
+Label_CLUE.Caption = strdec
+End If
+
+End If
+
+End Sub</code></pre>
+<ul>
+<li>这个是ok按钮的源代码，分析后可知<ul>
+<li>Dialog.Label2.Caption是宏生成的口令</li>
+<li>strusout为输入的口令<ul>
+<li>Decode为加密函数</li>
+</ul>
+</li>
+<li>Label_CLUE.Caption为输出结果函数_</li>
+</ul>
+</li>
+<li>因此我们只需要让第二个if判断的条件值改为1，则会输出线索</li>
+<li>在Mac下的office不支持ActiveX组件</li>
+</ul>
+<p><a href="https://imgchr.com/i/KnIwBd" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/10/19/KnIwBd.md.png" alt="KnIwBd.md.png"></a></p>
+<ul>
+<li><p>于是又在windows下按照上述步骤修改，得到线索<br><a href="https://imgchr.com/i/KnINcD" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/10/19/KnINcD.png" alt="KnINcD.png"></a></p>
+</li>
+<li><p>利用得到的线索，又知flag.rar的密码为13位，因此可以猜到口令<br><a href="https://imgchr.com/i/KnIDAI" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/10/19/KnIDAI.md.png" alt="KnIDAI.md.png"></a></p>
+</li>
+</ul>
+<p><a href="https://imgchr.com/i/KnIggS" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/10/19/KnIggS.md.png" alt="KnIggS.md.png"></a></p>
+
+                            <hr>
+                        </div>
+                        <br>
+                        <div>
+                            
+                            <p>
+                                <i class="iconfont icon-tag"></i>
+                                
+                            </p>
+                            
+                                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="d-none d-lg-block col-lg-2 toc-container">
+            
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i> Toc:</p> 
+    <div id="tocbot"></div>
+  </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container comments mx-auto" id="comments">
+        
+            <br><br>
+            
+            <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>               
+        var disqus_shortname = '';
+        var disqus_config = function () {
+            this.page.url = 'http://127.0.0.1:4000/2019/10/19/解密/'; 
+            this.page.identifier = '/2019/10/19/解密/';
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//'+disqus_shortname+'.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</div>
+    
+</main>
+
+<footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/0x2e/Material-T" target="_blank" rel="nofollow noopener"> <b>Material-T</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+  <!-- SCRIPTS -->
+  <script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+  <script src="/lib/mdbootstrap/js/popper.min.js"></script>
+  <script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+  <script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+  <script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+  <script src="/js/main.js"></script>
+  
+    
+      <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+    
+    <script src="/js/post.js"></script>
+  
+  
+    <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+    <script>
+      $(document).ready(function(){
+        $('pre').addClass('prettyprint linenums');
+        prettyPrint();
+      })
+    </script>
+  
+  
+    <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+    <script>
+        var typed = new Typed('#subtitle', {
+          strings: [
+            '  ',
+            "解密&nbsp;",
+        ],
+        cursorChar: "_",
+        typeSpeed: 70,
+        startDelay: 300, //开始之前延迟300毫秒
+        loop: false,
+        });
+        $(".typed-cursor").addClass("h2");
+    </script>
+  
+  
+    <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+    <script>
+      anchors.options = {
+        placement: "right",
+        visible: "true",
+        
+      };
+      anchors.add(".post-content > h1,h2,h3,h4,h5,h6");
+    </script>
+  
+
+  
+</body>
+</html>

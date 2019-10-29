@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content>
+    <meta name="author" content="Crazy-wen">
+    <meta name="keywords" content>
+    <title>Windows命令 ~ Crazy-wen&#39;s Blog</title>
+    <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+    <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+    <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+    
+        <link rel="stylesheet" href="/lib/prettify/atelier-seaside-light.min.css">
+    
+    <link rel="stylesheet" href="/css/main.css">
+    
+    
+<script type="text/javascript">
+
+ <script>
+var _hmt = _hmt || [];
+_hmt.push(['_setPageTag', id, value]);
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d2c7132109d78f54ab072ec83dfe40e1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+</head>
+
+
+<body>
+<header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+<div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Crazy-wen&#39;s Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto text-center">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/archives/">Archives</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/categories/">Categories</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/tags/">Tags</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+</nav>
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;background-size: cover;">
+        <div class="full-bg-img">
+            <div class="mask rgba-black-light flex-center">
+                <div class="container text-center white-text wow fadeInUp">
+                    <span  class="h1"  id="subtitle">
+                        
+                    </span>
+                    
+                        <br>
+                        <p>Friday, September 20th 2019, 11:05 am</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+        
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-md">
+                <div class="py-5 z-depth-3 board">
+                    <div class="post-content mx-auto">
+                        <div class="markdown-body">
+                            <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="1、文件类命令"><a href="#1、文件类命令" class="headerlink" title="1、文件类命令"></a>1、文件类命令</h2><ul>
+<li>显示:dir</li>
+<li>切换:cd</li>
+<li>创建:md</li>
+<li>删除:rd</li>
+<li>更名:ren</li>
+<li>复制:xcopy</li>
+<li>移动/剪切(也可用于目录):move</li>
+<li>修改文件属性:attrib</li>
+<li>文件比较:fc/comp</li>
+<li>显示文件内容:type</li>
+<li>创建/写入文件:echo<br>Echo xxxx&gt;filename:覆盖写 Echo xxxx&gt;&gt;filename:追加写</li>
+</ul>
+<h2 id="2、系统类命令"><a href="#2、系统类命令" class="headerlink" title="2、系统类命令"></a>2、系统类命令</h2><ul>
+<li>查看当前操作系统版本:ver</li>
+<li>查看系统信息:systeminfo</li>
+<li>查看时间:time</li>
+<li>创建/修改/删除卷标:label</li>
+<li>查看卷标:vol</li>
+<li>显示或配置服务(后台处理): SC 。</li>
+<li>TASKLIST 显示包括服务的所有当前运行的任务。</li>
+<li>TASKKILL/tskill 终止正在运行的进程或应用程序。</li>
+<li>关机:SHUTDOWN</li>
+<li>注销: Logoff</li>
+</ul>
+<h2 id="3、网络类命令"><a href="#3、网络类命令" class="headerlink" title="3、网络类命令"></a>3、网络类命令</h2><ul>
+<li>查看本机 ip 地址:ipconfig </li>
+<li>查看端口:netstat </li>
+<li>查看路由表:route </li>
+<li>查看 DNS 服务器:nslookup </li>
+<li>查看工作组主机信息:nbtstat </li>
+<li>路由表管理工具:route</li>
+</ul>
+<h2 id="4、NET-工具集"><a href="#4、NET-工具集" class="headerlink" title="4、NET 工具集"></a>4、NET 工具集</h2><p>功能丰富的工具集。包括 user、start、stop、localgroup 等子命令 使用“net help 子命令”查看子命令的用法。</p>
+<h1 id="使用命令行完成以下任务"><a href="#使用命令行完成以下任务" class="headerlink" title="使用命令行完成以下任务:"></a>使用命令行完成以下任务:</h1><h2 id="1、文件类命令-1"><a href="#1、文件类命令-1" class="headerlink" title="1、文件类命令"></a>1、文件类命令</h2><p>(1) 在桌面创建名为“gooddir”的目录，将目录名修改为“baddir”。<br>(2) 在 baddir 目录中使用 echo 命令创建一个文件“myfile.txt”，文件内容为<br>“echofile”。<br>(3) 修改myfile.txt文件属性为隐藏、只读、系统文件。<br>(4) 使用dir命令显示隐藏文件myfile.txt，使用move命令将文件复制到桌面。<br>(5) 删除myfile.txt和badpath目录。</p>
+<pre><code class="shell">cd C:\Users\hihi\Desktop     
+mkdir gooddir               
+ren gooddir baddir
+echo &quot;echofile&quot; &gt; baddir/myfile.txt
+attrib +r +h +s baddir/myfile.txt
+dir \a:h baddir/
+attrib -r -h -s baddir/myfile.txt
+move C:\Users\hihi\Desktop \baddir\myfile.txt C:Users\hihi\Desktop
+rd baddir
+del myfile.txt</code></pre>
+<p>下面我逐一解释上述命令的作用：</p>
+<ul>
+<li>到C:\Users\hihi\Desktop目录下</li>
+<li>在该目录下创建文件</li>
+<li>将文件名改为baddir</li>
+<li>显示echofile输出到baddir/myfile.txt文件中</li>
+<li>给文件添加r（只读），h（隐藏），s（系统）属性</li>
+<li>\a后为显示的属性，如h,r,s…，</li>
+<li>去掉r,h,s属性</li>
+<li>移动文件到桌面</li>
+<li>删除baddir</li>
+<li>删除myfile.txt</li>
+</ul>
+<h2 id="2、系统类命令-1"><a href="#2、系统类命令-1" class="headerlink" title="2、系统类命令"></a>2、系统类命令</h2><p>(1) 使用 SC 命令完成以下操作:查看 spooler 服务的配置;停止 spooler 服务;<br>将 spooler 服务的启动方式改为手动(demand);启动 spooler 服务。<br>(2) 使用tskill命令终止explorer.exe进程，再启动explorer.exe进程。</p>
+<pre><code class="shell">C:\Windows\system32&gt;sc qc spooler
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: spooler
+        TYPE               : 110  WIN32_OWN_PROCESS (interactive)
+        START_TYPE         : 2   AUTO_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\System32\spoolsv.exe
+        LOAD_ORDER_GROUP   : SpoolerGroup
+        TAG                : 0
+        DISPLAY_NAME       : Print Spooler
+        DEPENDENCIES       : RPCSS
+                           : http
+        SERVICE_START_NAME : LocalSystem
+
+C:\Windows\system32&gt;sc stop spooler
+
+SERVICE_NAME: spooler
+        TYPE               : 110  WIN32_OWN_PROCESS  (interactive)
+        STATE              : 3  STOP_PENDING
+                                (NOT_STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x3
+        WAIT_HINT          : 0x4e20
+
+C:\Windows\system32&gt;sc config spooler  start= demand
+[SC] ChangeServiceConfig 成功
+
+
+C:\Windows\system32&gt;taskkill /im explorer.exe /f
+成功: 已终止进程 &quot;explorer.exe&quot;，其 PID 为 2656。
+
+C:\Windows\system32&gt;explorer</code></pre>
+<h4 id="上述命令的含义"><a href="#上述命令的含义" class="headerlink" title="上述命令的含义"></a>上述命令的含义</h4><ul>
+<li>查看服务的配置信息</li>
+<li>停止spooler服务</li>
+<li>将启动方式改为手动</li>
+<li>启动服务</li>
+<li>终止explorer.exe进程</li>
+<li>运行explorer</li>
+</ul>
+<h4 id="sc-qc的作用"><a href="#sc-qc的作用" class="headerlink" title="sc qc的作用"></a>sc qc的作用</h4><p>查询QUERY_SERVICE_CONFIGA structure（包含已安装服务的配置信息），具体参数参考请<a href="https://docs.microsoft.com/zh-cn/windows/win32/api/winsvc/ns-winsvc-query_service_configa?redirectedfrom=MSDN" target="_blank" rel="noopener">点击此处</a></p>
+<h4 id="sc命令"><a href="#sc命令" class="headerlink" title="sc命令"></a>sc命令</h4><p><img src="https://s2.ax1x.com/2019/09/20/nvp5gH.jpg" alt="nvp5gH.jpg"></p>
+<h3 id="3、网络类命令-1"><a href="#3、网络类命令-1" class="headerlink" title="3、网络类命令"></a>3、网络类命令</h3><p>(1) 使用 netstat 命令查看本机开放的端口，在 netstat 输出的结果中使用 findstr命令只显示 445 端口数据。(在原命令后面附加“| findstr”)<br>(2) 如果主机已联网，使用 route 命令删除第一条路由。(0.0.0.0 0.0.0.0 网关 ip)，然后尝试还能否正常上网。</p>
+<blockquote>
+<p>445端口也是一种TCP端口，该端口在Windows 2000 Server或Windows Server 2003系统中发挥的作用与139端口是完全相同的。具体地说，它也是提供局域网中文件或打印机共享服务。不过该端口是基于CIFS协议（通用因特网文件系统协议）工作的，而139端口是基于SMB协议（服务器协议族）对外提供共享服务。同样地，攻击者与445端口建立请求连接，也能获得指定局域网内的各种共享信息</p>
+</blockquote>
+<pre><code class="shell">C:\Windows\system32&gt;netstat
+
+活动连接
+
+  协议  本地地址          外部地址        状态
+  TCP    192.168.0.100:49206    a104-127-101-31:http   ESTABLISHED
+  TCP    192.168.0.100:49207    202.89.233.96:http     ESTABLISHED
+  TCP    192.168.0.100:49208    a23-62-109-34:http     ESTABLISHED
+  TCP    192.168.0.100:49209    a23-62-109-34:http     ESTABLISHED
+  TCP    192.168.0.100:49210    a23-62-109-34:http     ESTABLISHED
+  TCP    192.168.0.100:49211    a23-57-112-215:http    ESTABLISHED
+  TCP    192.168.0.100:49212    a23-62-109-34:http     ESTABLISHED
+  TCP    192.168.0.100:49213    a23-62-109-34:http     ESTABLISHED
+
+C:\Windows\system32&gt;netstat |findstr 445
+
+C:\Windows\system32&gt;route print
+===========================================================================
+接口列表
+ 13...f0 18 98 02 8a 50 ......Bluetooth 设备(个人区域网)
+ 10...00 0c 29 5d f8 56 ......Intel(R) PRO/1000 MT Network Connection
+  1...........................Software Loopback Interface 1
+ 11...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter
+ 14...00 00 00 00 00 00 00 e0 Microsoft ISATAP Adapter #2
+ 15...00 00 00 00 00 00 00 e0 Teredo Tunneling Pseudo-Interface
+===========================================================================
+
+IPv4 路由表
+===========================================================================
+活动路由:
+网络目标        网络掩码          网关       接口   跃点数
+          0.0.0.0          0.0.0.0      192.168.0.1    192.168.0.100     10
+        127.0.0.0        255.0.0.0            在链路上         127.0.0.1    306
+        127.0.0.1  255.255.255.255            在链路上         127.0.0.1    306
+  127.255.255.255  255.255.255.255            在链路上         127.0.0.1    306
+      192.168.0.0    255.255.255.0            在链路上     192.168.0.100    266
+    192.168.0.100  255.255.255.255            在链路上     192.168.0.100    266
+    192.168.0.255  255.255.255.255            在链路上     192.168.0.100    266
+        224.0.0.0        240.0.0.0            在链路上         127.0.0.1    306
+        224.0.0.0        240.0.0.0            在链路上     192.168.0.100    266
+  255.255.255.255  255.255.255.255            在链路上         127.0.0.1    306
+  255.255.255.255  255.255.255.255            在链路上     192.168.0.100    266
+===========================================================================
+
+C:\Windows\system32&gt;route delete 0.0.0.0
+ 操作完成!
+
+###此时已经不能上网，也无法ping 
+###重新添加
+
+C:\Windows\system32&gt;route add 0.0.0.0 mask 0.0.0.0 192.168.0.1
+ 操作完成!
+
+###能上网，能ping通了
+</code></pre>
+<h3 id="4、NET-工具集-1"><a href="#4、NET-工具集-1" class="headerlink" title="4、NET 工具集"></a>4、NET 工具集</h3><p>(1) 使用 Net user 命令创建一个普通用户 hacker。<br>(2) 将hacker提升为管理员权限。<br>(3) 禁用hacker用户。<br>(4) 删除hacker用户。<br>(5) 使用 net share 命令共享一个文件夹，再删除它。</p>
+<pre><code class="shell">net user hacker /add   
+net localgroup administrators hacker /add
+net user /active:no hacker
+net user hacker /del
+net share share=C:\Users\hihi\Desktop\share
+net share share /del</code></pre>
+<h4 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h4><ul>
+<li>net share sharename=path</li>
+<li>sharename可以随便起</li>
+<li>删除时只用加sharename</li>
+</ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><blockquote>
+<p>熟练掌握命令行对专业能力的发展至关重要，有很多事情只需要命令行就足以完成，极大地了提高效率</p>
+</blockquote>
+
+                            <hr>
+                        </div>
+                        <br>
+                        <div>
+                            
+                            <p>
+                                <i class="iconfont icon-tag"></i>
+                                
+                                    <a class="hover-with-bg" href="/tags/windows">windows</a>
+                                
+                            </p>
+                            
+                                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="d-none d-lg-block col-lg-2 toc-container">
+            
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i> Toc:</p> 
+    <div id="tocbot"></div>
+  </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container comments mx-auto" id="comments">
+        
+            <br><br>
+            
+            <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>               
+        var disqus_shortname = '';
+        var disqus_config = function () {
+            this.page.url = 'http://127.0.0.1:4000/2019/09/20/Windows命令/'; 
+            this.page.identifier = '/2019/09/20/Windows命令/';
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//'+disqus_shortname+'.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</div>
+    
+</main>
+
+<footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/0x2e/Material-T" target="_blank" rel="nofollow noopener"> <b>Material-T</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+  <!-- SCRIPTS -->
+  <script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+  <script src="/lib/mdbootstrap/js/popper.min.js"></script>
+  <script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+  <script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+  <script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+  <script src="/js/main.js"></script>
+  
+    
+      <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+    
+    <script src="/js/post.js"></script>
+  
+  
+    <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+    <script>
+      $(document).ready(function(){
+        $('pre').addClass('prettyprint linenums');
+        prettyPrint();
+      })
+    </script>
+  
+  
+    <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+    <script>
+        var typed = new Typed('#subtitle', {
+          strings: [
+            '  ',
+            "Windows命令&nbsp;",
+        ],
+        cursorChar: "_",
+        typeSpeed: 70,
+        startDelay: 300, //开始之前延迟300毫秒
+        loop: false,
+        });
+        $(".typed-cursor").addClass("h2");
+    </script>
+  
+  
+    <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+    <script>
+      anchors.options = {
+        placement: "right",
+        visible: "true",
+        
+      };
+      anchors.add(".post-content > h1,h2,h3,h4,h5,h6");
+    </script>
+  
+
+  
+</body>
+</html>
