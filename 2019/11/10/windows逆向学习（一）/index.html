@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content>
+    <meta name="author" content="Crazy-wen">
+    <meta name="keywords" content>
+    <title>windows逆向学习（一） ~ Crazy-wen&#39;s Blog</title>
+    <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+    <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+    <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+    
+        <link rel="stylesheet" href="/lib/prettify/atelier-seaside-light.min.css">
+    
+    <link rel="stylesheet" href="/css/main.css">
+    
+    
+<script type="text/javascript">
+
+ <script>
+var _hmt = _hmt || [];
+_hmt.push(['_setPageTag', id, value]);
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d2c7132109d78f54ab072ec83dfe40e1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+</head>
+
+
+<body>
+<header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+<div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Crazy-wen&#39;s Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto text-center">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/archives/">Archives</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/categories/">Categories</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/tags/">Tags</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+</nav>
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;background-size: cover;">
+        <div class="full-bg-img">
+            <div class="mask rgba-black-light flex-center">
+                <div class="container text-center white-text wow fadeInUp">
+                    <span  class="h1"  id="subtitle">
+                        
+                    </span>
+                    
+                        <br>
+                        <p>Sunday, November 10th 2019, 1:02 am</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+        
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-md">
+                <div class="py-5 z-depth-3 board">
+                    <div class="post-content mx-auto">
+                        <div class="markdown-body">
+                            <p><a href="https://blog.csdn.net/qq_40351988/article/details/88107647" target="_blank" rel="noopener">简单实用IDA技巧</a></p>
+<p><a href="https://bbs.pediy.com/thread-228685.htm" target="_blank" rel="noopener">Windows逆向病毒需要注意的函数</a></p>
+<h3 id="函数整理"><a href="#函数整理" class="headerlink" title="函数整理"></a>函数整理</h3><p>KillTimer 销毁计时器</p>
+<p>SetTimer 创建计时器</p>
+<p>BeginPaint 告诉显卡需要输出内容</p>
+<p>EndPaint 输出结束</p>
+<p>PostQuitMessage 终止线程</p>
+<p>PtInRect 判断指定点是否在矩形内部</p>
+<p>SetCapture 捕获鼠标信息</p>
+<p>MapWindowPoints 该函数把相对于一个窗口的 坐标空间的一组点映射成相对于另一窗口的坐标空间的一组点</p>
+<p>PeekMessageW 为一个消息检查线程消息队列，并将该消息（如果存在）放于指定的结构。如果消息可得到，返回非零值；如果没有消息可得到，返回值是零</p>
+<p>ReleaseCapture 解除鼠标捕获</p>
+<p>SetDlgitemInt 将uValue的值设为对话框控件的文本</p>
+<p>winhelpw</p>
+<p>SetDlgitemText 设置对话框中控件的文本和标题</p>
+<p>wsprintf 将一系列的 字符和数值输入到 缓冲区</p>
+<p>lstrcpyw 复制一个 字符串到缓冲区</p>
+<p>SendMessage 指定的消息发送到一个或多个窗口</p>
+<p>Getdlgitem 检索指定的对话框中的控件句柄</p>
+<p>GetSystemMetrics 用于得到被定义的系统数据或者系统配置信息</p>
+<p>InvalidateRect 向指定的 窗体更新区域添加一个矩形，然后窗口客户区域的这一部分将被重新绘制</p>
+<p>DialogBoxParam 根据对话框模板资源创建一个模态的对话框</p>
+<p>ShowWindow 展示这个窗口</p>
+<p>SetRect 设置矩形内容</p>
+<p>SendMessageW 将指定的消息发送到一个或多个窗口</p>
+<p>GetDC 使应用程序更多地控制在客户区域内如何或是否发生剪切</p>
+<p>ReleaseDC 释放设备上下文环境（DC）供其他应用程序使用</p>
+<p>setpixel 将指定坐标处的像素设为指定的颜色</p>
+<p>DefWindowProcW 确保每一个消息得到处理</p>
+<p>3、在这之后，整理了一些我觉得可能对分析有用的函数，如下：</p>
+<p>InitCommonControlsEx 可以注册指定控件的窗口类。在使用SDK编写windows界面的时候，如果使用了月历控件，IP地址控件等高级控件，则需要调用此函数。说简单了就是创建窗口使得应用程序可视化</p>
+<p>LoadIconW 载入当前文件中指定的图标资源</p>
+<p>LoadCursorw 从一个与应用事例相关的可执行文件（EXE文件）中载入指定的光标资源</p>
+<p>GetStockObject 检索预定义的备用笔、刷子、字体或者 调色板的句柄</p>
+<p>RegisterClassW 注册在随后调用CreateWindow函数和CreateWindowEx函数中使用的 窗口类</p>
+<p>LoadMenuW 该函数从与应用程序实例相联系的 可执行文件（.EXE）中加载指定的菜单资源</p>
+<p>LoadAcceleratorsW 函数功能：调入加速键表。该函数调入指定的加速键表（快捷键必用）</p>
+<p>UpdateWindow 如果窗口更新的区域不为空，UpdateWindow函数通过发送一个WM_PAINT消息来更新指定窗口的客户区。函数绕过应用程序的 消息队列，直接发送WM_PAINT消息给指定窗口的窗口过程，如果更新区域为空，则不发送消息。</p>
+<p>TranslateAccelerator 处理菜单命令中的加速键</p>
+<p>TranslateMessage 将虚拟键消息转换为字符消息</p>
+<p>DispatchMessage 调度一个消息给窗口程序</p>
+<p>FindResource 确定指定模块中指定类型和名称的资源所在位置</p>
+<p>LoadResource 装载指定资源到全局存储器</p>
+<p>LockResource 锁定内存中的指定资源，说白了就是返回资源在内存中的地址</p>
+<p>SelectObject 该函数选择一对象到指定的设备上下文环境中，新对象替换先前的相同类型的对象。</p>
+<p>SetdiBitStoDevice 函数使用DIB位图和颜色数据对与目标设备环境相关的设备上的指定矩形中的像素进行设置</p>
+<p>GetStockObject 检索预定义的备用笔、刷子、字体或者调色板的句柄</p>
+<p>CreateCompatibleDC 该函数创建一个与指定设备兼容的内存设备上下文环境（DC）。通过GetDc()获取的HDC直接与相关设备沟通，而本函数创建的DC，则是与内存中的一个表面相关联。</p>
+<p>OutputDebugStringA 使你的程序和 调试器进行交谈</p>
+<p>CreateCompatibleBitmap 创建与指定的设备环境相关的设备兼容的位图。</p>
+<p>ReleaseDC 释放设备上下文环境（DC）供其他应用程序使用。函数的效果与设备上下文环境类型有关。它只释放公用的和设备上下文环境，对于类或私有的则无效。</p>
+<p>DeleteDC 该函数删除指定的设备上下文环境（Dc）</p>
+<p>DeleteObject 函数删除一个逻辑笔、画笔、字体、 位图、区域或者调色板，释放所有与该对象有关的系统资源，在对象被删除之后，指定的句柄也就失效了</p>
+<p>BitBlt 该函数对指定的源设备环境区域中的像素进行位（bit_block）转换，以传送到目标设备环境</p>
+<p>SetROP2 设定当前前景色的混合模式</p>
+<p>RegQueryValueExW 获取一个项的设置值　　返回值</p>
+<p>RegCreateKeyExW 指定项下创建新项的更复杂的方式</p>
+<p>RegCloseKey 释放指定注册键的句柄</p>
+<p>GetDesktopWindow 函数返回桌面窗口的句柄</p>
+<p>GetDeviceCaps 获取指定设备的性能参数</p>
+<p>RegSetValueExW 设置指定项的值</p>
+<p>lstrlenW</p>
+<p>rand 产生随机数的一个随机函数</p>
+<p>LoadStringW 从 资源 里加载字符串资源到CString对象里</p>
+<p>GetPrivateProfileIntW 为初始化文件中指定的条目获取一个整数值</p>
+<p>GetTickCount 返回（retrieve）从操作系统启动所经过（elapsed）的毫秒数，它的返回值是DWORD。</p>
+<p>srand 随机数发生器的初始化函数。</p>
+<p>CheckMenuItem 复选或撤消复选指定的菜单条目</p>
+<p>Setmenu 分配一个新菜单到指定窗口</p>
+<p>ShellAboutW 显示一个关于壳信息的对话框，四个参数。</p>
+<p>GetModuleFileNameA 获取当前进程已加载模块的文件的完整路径，该模块必须由当前进程加载。</p>
+<p>GetDlgItemInt 获取控件中里面字符串并转换成int类型返回</p>
+<p>GetModuleHandleA 获取一个应用程序或 动态链接库的模块句柄</p>
+<p>GetStartupInfoA 返回进程在启动时被指定的 STARTUPINFO 结构</p>
+<p>msvcrt 一个dll，配合实现了许多功能</p>
+<p><strong>_controlfp</strong> 获取和设置浮点控制字</p>
+<p>LoadLibraryA 载入指定的动态链接库，并将它映射到当前进程使用的地址空间。一旦载入，即可访问库内保存的资源</p>
+<p>GetProcAddress 获取进程地址</p>
+<p>RegOpenKeyExA 打开一个指定的注册表键</p>
+<p>CreateMutex  可用来创建一个有名或无名的互斥量对象</p>
+
+                            <hr>
+                        </div>
+                        <br>
+                        <div>
+                            
+                            <p>
+                                <i class="iconfont icon-tag"></i>
+                                
+                            </p>
+                            
+                                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="d-none d-lg-block col-lg-2 toc-container">
+            
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i> Toc:</p> 
+    <div id="tocbot"></div>
+  </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container comments mx-auto" id="comments">
+        
+            <br><br>
+            
+            <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>               
+        var disqus_shortname = '';
+        var disqus_config = function () {
+            this.page.url = 'http://127.0.0.1:4000/2019/11/10/windows逆向学习（一）/'; 
+            this.page.identifier = '/2019/11/10/windows逆向学习（一）/';
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//'+disqus_shortname+'.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</div>
+    
+</main>
+
+<footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/0x2e/Material-T" target="_blank" rel="nofollow noopener"> <b>Material-T</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+  <!-- SCRIPTS -->
+  <script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+  <script src="/lib/mdbootstrap/js/popper.min.js"></script>
+  <script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+  <script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+  <script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+  <script src="/js/main.js"></script>
+  
+    
+      <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+    
+    <script src="/js/post.js"></script>
+  
+  
+    <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+    <script>
+      $(document).ready(function(){
+        $('pre').addClass('prettyprint linenums');
+        prettyPrint();
+      })
+    </script>
+  
+  
+    <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+    <script>
+        var typed = new Typed('#subtitle', {
+          strings: [
+            '  ',
+            "windows逆向学习（一）&nbsp;",
+        ],
+        cursorChar: "_",
+        typeSpeed: 70,
+        startDelay: 300, //开始之前延迟300毫秒
+        loop: false,
+        });
+        $(".typed-cursor").addClass("h2");
+    </script>
+  
+  
+    <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+    <script>
+      anchors.options = {
+        placement: "right",
+        visible: "true",
+        
+      };
+      anchors.add(".post-content > h1,h2,h3,h4,h5,h6");
+    </script>
+  
+
+  
+</body>
+</html>
