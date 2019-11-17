@@ -116,6 +116,75 @@ _hmt.push(['_setPageTag', id, value]);
         
         
         <div class="col-12 col-md-8 m-auto">
+            <a href="/2019/11/15/SQL注入实验/">
+                <p class="h4 index-header">SQL注入实验</p>
+                <div class="index-excerpt">
+                    
+                        <div class="index-text mb-1">实验目的SQL 注入攻击实验要求理解 SQL 注入攻击的基本原理，掌握 SQL 注入攻击的基本方法。
+环境SL 注入攻击实验对学生成绩管理系统中的根据姓名获取学号工号的功能和用户登录功能进行攻击，实现 SQL 注入攻击。
+学生成绩管理系统中的根据姓名获取学号/工号的功能,需要根据用户输入的姓名（汉活拼音），然后到 MySQ인L 数据库中查询相关的表格得到结果，根据 SQL 注入基本原理，这里可能存在 SQL 注入点。同样，在学生成绩管理系统中，用户需要登录系统才能够使用系统的其他功能，用户输入的用户名（学号号）和密码也都要通过 SQL 査询得到，根据 SQL 注入基本原理，这里仍可能存在 SQL 注入点。
+步骤尝试用户登录功能
+学号查询功能的SQL注入攻击，在查询框中输入‘or&#39;1&#39;=&#39;1&#39;#,由此得到所有用户的学号/工号
+
+
+用户登录的SQL注入攻击
+在登陆界面用户名框中输入or&#39;1&#39;=&#39;1&#39;);#,并且选择不同的人员类别都能登陆不同的用户，且是不同类型用的第一个用户
+
+
+
+如果用户名正确，在密码框中输入or&#39;1</div>
+                    
+                </div>
+            </a>
+            
+                <div>
+                    <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-15
+                    &nbsp;&nbsp;
+                    
+                    
+                </div>
+            
+        </div>
+    </div>
+
+    <div class="row mb-4 mx-auto">
+        
+        
+        <div class="col-12 col-md-8 m-auto">
+            <a href="/2019/11/15/XSS跨站脚本攻击实验/">
+                <p class="h4 index-header">XSS跨站脚本攻击实验</p>
+                <div class="index-excerpt">
+                    
+                        <div class="index-text mb-1">环境
+XSS跨站脚本攻击实验通过对学生成绩管理系统中的根据姓名获取学号/工号的功能进行攻击，从而实现 XSS 跨站脚本攻击。
+
+
+
+根据 XSS 跨站脚本攻击的基本原理，如果对用户的输入内容过滤不严格，则会发生 XSS 跨站脚本攻击。
+
+步骤
+在查询框中输入&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;
+
+
+</div>
+                    
+                </div>
+            </a>
+            
+                <div>
+                    <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-15
+                    &nbsp;&nbsp;
+                    
+                    
+                </div>
+            
+        </div>
+    </div>
+
+    <div class="row mb-4 mx-auto">
+        
+        
+        <div class="col-12 col-md-8 m-auto">
             <a href="/2019/11/10/windows逆向学习（一）/">
                 <p class="h4 index-header">windows逆向学习（一）</p>
                 <div class="index-excerpt">
@@ -430,93 +499,6 @@ NMAP 的常用参数-sT     TCP connect()扫描，这种方式会在目标主机
                     <i class="iconfont icon-riqi2"></i>&nbsp;2019-09-27
                     &nbsp;&nbsp;
                     
-                    
-                </div>
-            
-        </div>
-    </div>
-
-    <div class="row mb-4 mx-auto">
-        
-        
-        <div class="col-12 col-md-8 m-auto">
-            <a href="/2019/09/27/公开信息收集/">
-                <p class="h4 index-header">公开信息收集</p>
-                <div class="index-excerpt">
-                    
-                        <div class="index-text mb-1">实验目标本次信息收集以电子工业出版社为目标
-实验步骤1、查找目标目标网站域名
-通过搜索引擎获得“电子工业出版社”的官方网站域名
-
-从网站中获得公开信息
-
-查看网页源代码，发现有些注释没有去掉
-
-获得目标网站的访问信息
-
-获得网站的域名以及dns服务器等信息
-
-
-
-
-
-
-获得网站的dns服务器信息，在终端中使用nslookup，
-
-$ nslookup
-&gt; server ns1.sfn.cn
-Default server: ns1.sfn.cn
-Address: 210.72.13.124#53
-Default server: ns1.sfn.cn
-Address: 210.72.13.121#53
-&gt; set type=any
-&gt; ls -d ns1.sfn.cn
-The &#39;ls&#39; command is not implemented.
-&gt; 1s -d ns1.sfn.cn
-;; Got SERVFAIL reply from 210.72.13.124, trying next server
-Server:        ns1.sfn.cn
-</div>
-                    
-                </div>
-            </a>
-            
-                <div>
-                    <i class="iconfont icon-riqi2"></i>&nbsp;2019-09-27
-                    &nbsp;&nbsp;
-                    
-                    
-                        |&nbsp;&nbsp;<i class="iconfont icon-tag"></i>
-                        
-                            <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a>&nbsp;
-                        
-                    
-                </div>
-            
-        </div>
-    </div>
-
-    <div class="row mb-4 mx-auto">
-        
-        
-        <div class="col-12 col-md-8 m-auto">
-            <a href="/2019/09/26/bootloader/">
-                <p class="h4 index-header">可读elf格式文件的baby bootloader</p>
-                <div class="index-excerpt">
-                    
-                        <div class="index-text mb-1"></div>
-                    
-                </div>
-            </a>
-            
-                <div>
-                    <i class="iconfont icon-riqi2"></i>&nbsp;2019-09-26
-                    &nbsp;&nbsp;
-                    
-                    
-                        |&nbsp;&nbsp;<i class="iconfont icon-tag"></i>
-                        
-                            <a href="/tags/ucore">ucore</a>&nbsp;
-                        
                     
                 </div>
             
