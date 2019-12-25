@@ -17,7 +17,7 @@
     <meta name="description" content>
     <meta name="author" content="Crazy-wen">
     <meta name="keywords" content>
-    <title>SQL注入实验 ~ Crazy-wen&#39;s Blog</title>
+    <title>arp欺骗 ~ Crazy-wen&#39;s Blog</title>
     <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
     <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
@@ -96,7 +96,7 @@ _hmt.push(['_setPageTag', id, value]);
                     </span>
                     
                         <br>
-                        <p>Friday, November 15th 2019, 2:25 pm</p>
+                        <p>Friday, December 20th 2019, 11:23 am</p>
                     
                 </div>
             </div>
@@ -118,21 +118,30 @@ _hmt.push(['_setPageTag', id, value]);
                 <div class="py-5 z-depth-3 board">
                     <div class="post-content mx-auto">
                         <div class="markdown-body">
-                            <h1 id="SQL注入实验"><a href="#SQL注入实验" class="headerlink" title="SQL注入实验"></a><center>SQL注入实验</center></h1><h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>SQL 注入攻击实验要求理解 SQL 注入攻击的基本原理，掌握 SQL 注入攻击的基本方法。</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>SL 注入攻击实验对学生成绩管理系统中的根据姓名获取学号工号的功能和用户登录功能进行攻击，实现 SQL 注入攻击。</p>
-<p>学生成绩管理系统中的根据姓名获取学号/工号的功能,需要根据用户输入的姓名（汉活拼音），然后到 MySQ인L 数据库中查询相关的表格得到结果，根据 SQL 注入基本原理，这里可能存在 SQL 注入点。同样，在学生成绩管理系统中，用户需要登录系统才能够使用系统的其他功能，用户输入的用户名（学号号）和密码也都要通过 SQL 査询得到，根据 SQL 注入基本原理，这里仍可能存在 SQL 注入点。</p>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h4 id="尝试用户登录功能"><a href="#尝试用户登录功能" class="headerlink" title="尝试用户登录功能"></a>尝试用户登录功能</h4><ul>
-<li>学号查询功能的SQL注入攻击，在查询框中输入<code>‘or&#39;1&#39;=&#39;1&#39;#</code>,由此得到所有用户的学号/工号</li>
+                            <h1 id="ARP欺骗"><a href="#ARP欺骗" class="headerlink" title="ARP欺骗"></a><center>ARP欺骗<center></center></center></h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>当请求主机收到ARP应答包后，不会去验证自己是否向对方主机发送过ARP请求包，就直接把这个返回包中的IP地址与MAC地址的对应关系保存进ARP缓存表中，如果原有相同IP对应关系，原有的则会被替换。</strong></p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><pre><code>宿主机（MAC） ：192.168.0.100 （被欺骗）
+虚拟机（windows xp） ：192.168.0.101</code></pre><ul>
+<li>攻击主机工具<ul>
+<li>WinPcap 4.1.3</li>
+<li>Cain v4.9</li>
 </ul>
-<p><a href="https://imgchr.com/i/MDeaS1" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/11/17/MDeaS1.png" alt="MDeaS1.png"></a></p>
-<h4 id="用户登录的SQL注入攻击"><a href="#用户登录的SQL注入攻击" class="headerlink" title="用户登录的SQL注入攻击"></a>用户登录的SQL注入攻击</h4><ul>
-<li>在登陆界面用户名框中输入<code>or&#39;1&#39;=&#39;1&#39;);#</code>,并且选择不同的人员类别都能登陆不同的用户，且是不同类型用的第一个用户</li>
+</li>
 </ul>
-<p><a href="https://imgchr.com/i/MDerwD" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/11/17/MDerwD.png" alt="MDerwD.png"></a><br><a href="https://imgchr.com/i/MDeDeO" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/11/17/MDeDeO.png" alt="MDeDeO.png"></a><br><a href="https://imgchr.com/i/MDedQx" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/11/17/MDedQx.png" alt="MDedQx.png"></a><br><a href="https://imgchr.com/i/MDeNWR" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/11/17/MDeNWR.png" alt="MDeNWR.png"></a></p>
-<ul>
-<li>如果用户名正确，在密码框中输入<code>or&#39;1&#39;=&#39;1&#39;);#</code>，则能以任何用户登陆系统，这个也称为万能钥匙<br>，我们尝试一下登陆学生<code>fanxiaorui</code></li>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h4 id="虚拟机上运行-Cain-程序。"><a href="#虚拟机上运行-Cain-程序。" class="headerlink" title="虚拟机上运行 Cain 程序。"></a>虚拟机上运行 Cain 程序。</h4><p>单击“配置”菜单，选择 IP 地址为192.168.0.101的网卡适配器</p>
+<h4 id="扫描活动主机"><a href="#扫描活动主机" class="headerlink" title="扫描活动主机"></a>扫描活动主机</h4><p><a href="https://imgchr.com/i/QOiIoQ" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/12/20/QOiIoQ.png" alt="QOiIoQ.png"></a></p>
+<h4 id="配置信息"><a href="#配置信息" class="headerlink" title="配置信息"></a>配置信息</h4><p><a href="https://imgchr.com/i/QOiTij" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/12/20/QOiTij.png" alt="QOiTij.png"></a></p>
+<h4 id="添加欺骗对象"><a href="#添加欺骗对象" class="headerlink" title="添加欺骗对象"></a>添加欺骗对象</h4><p><a href="https://imgchr.com/i/QOi5dg" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/12/20/QOi5dg.png" alt="QOi5dg.png"></a></p>
+<h4 id="开始欺骗"><a href="#开始欺骗" class="headerlink" title="开始欺骗"></a>开始欺骗</h4><p><img src="https://s2.ax1x.com/2019/12/20/QOkuHU.png" alt="QOkuHU.png"></p>
+<h4 id="观察arp缓存"><a href="#观察arp缓存" class="headerlink" title="观察arp缓存"></a>观察arp缓存</h4><ul>
+<li>查看攻击机的mac地址<br><a href="https://imgchr.com/i/QOiHWn" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/12/20/QOiHWn.png" alt="QOiHWn.png"></a></li>
+<li>查看被欺骗主机的arp列表<br><a href="https://imgchr.com/i/QOi7Js" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/12/20/QOi7Js.png" alt="QOi7Js.png"></a></li>
 </ul>
-<p><a href="https://imgchr.com/i/MDewy6" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/11/17/MDewy6.png" alt="MDewy6.png"></a></p>
+<blockquote>
+<p>通过查看 arp 列表中网关mac地址的前后变化，可以看到网关的 mac 地址已经变成攻击机的mac地址</p>
+</blockquote>
+<h2 id="arp欺骗防范"><a href="#arp欺骗防范" class="headerlink" title="arp欺骗防范"></a>arp欺骗防范</h2><p>　　1.在主机绑定网关MAC与IP地址为静态（默认为动态），命令：arp -s 网关IP 网关MAC</p>
+<p>　　2.在网关绑定主机MAC与IP地址</p>
+<p>　　3.使用ARP防火墙</p>
 
                             <hr>
                         </div>
@@ -175,8 +184,8 @@ _hmt.push(['_setPageTag', id, value]);
     <script>               
         var disqus_shortname = '';
         var disqus_config = function () {
-            this.page.url = 'http://127.0.0.1:4000/2019/11/15/SQL注入实验/'; 
-            this.page.identifier = '/2019/11/15/SQL注入实验/';
+            this.page.url = 'http://127.0.0.1:4000/2019/12/20/arp欺骗/'; 
+            this.page.identifier = '/2019/12/20/arp欺骗/';
         };
         (function() { 
             var d = document, s = d.createElement('script');
@@ -232,7 +241,7 @@ _hmt.push(['_setPageTag', id, value]);
         var typed = new Typed('#subtitle', {
           strings: [
             '  ',
-            "SQL注入实验&nbsp;",
+            "arp欺骗&nbsp;",
         ],
         cursorChar: "_",
         typeSpeed: 70,

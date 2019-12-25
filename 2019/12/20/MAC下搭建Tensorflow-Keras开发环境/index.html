@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content>
+    <meta name="author" content="Crazy-wen">
+    <meta name="keywords" content>
+    <title>MAC下搭建Tensorflow+Keras开发环境 ~ Crazy-wen&#39;s Blog</title>
+    <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+    <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+    <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+    <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+    
+        <link rel="stylesheet" href="/lib/prettify/atelier-seaside-light.min.css">
+    
+    <link rel="stylesheet" href="/css/main.css">
+    
+    
+<script type="text/javascript">
+
+ <script>
+var _hmt = _hmt || [];
+_hmt.push(['_setPageTag', id, value]);
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d2c7132109d78f54ab072ec83dfe40e1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+</head>
+
+
+<body>
+<header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+<div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Crazy-wen&#39;s Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto text-center">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/archives/">Archives</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/categories/">Categories</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/tags/">Tags</a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+</nav>
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;background-size: cover;">
+        <div class="full-bg-img">
+            <div class="mask rgba-black-light flex-center">
+                <div class="container text-center white-text wow fadeInUp">
+                    <span  class="h1"  id="subtitle">
+                        
+                    </span>
+                    
+                        <br>
+                        <p>Friday, December 20th 2019, 11:38 pm</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+        
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-md">
+                <div class="py-5 z-depth-3 board">
+                    <div class="post-content mx-auto">
+                        <div class="markdown-body">
+                            <h3 id="安装Anaconda"><a href="#安装Anaconda" class="headerlink" title="安装Anaconda"></a>安装Anaconda</h3><p><a href="https://www.anaconda.com/download/#macos" target="_blank" rel="noopener">https://www.anaconda.com/download/#macos</a></p>
+<h3 id="换清华镜像"><a href="#换清华镜像" class="headerlink" title="换清华镜像"></a>换清华镜像</h3><ul>
+<li>进入Anaconda目录后，再进入condabin目录</li>
+<li>使用以下命令更换源</li>
+</ul>
+<pre><code>./conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+./conda config --set show_channel_urls yes
+./conda install numpy   #测试是否添加成功</code></pre><h3 id="建立一个Tensorflow的运行环境"><a href="#建立一个Tensorflow的运行环境" class="headerlink" title="建立一个Tensorflow的运行环境"></a>建立一个Tensorflow的运行环境</h3><pre><code>conda create -n tensorflow python=3.7
+conda activate tensorflow
+pip install tensorflow -i https://pypi.douban.com/simple
+pip install keras
+</code></pre><ul>
+<li>进入Anaconda安装目录，然后输入bin/jupyter-notebook即可启动jupyter-notebook</li>
+</ul>
+<h3 id="名词术语"><a href="#名词术语" class="headerlink" title="名词术语"></a>名词术语</h3><h4 id="池化（Pooling）"><a href="#池化（Pooling）" class="headerlink" title="池化（Pooling）"></a>池化（Pooling）</h4><blockquote>
+<p>为进一步减少变量的数目同时防止过拟合，一种常见的做法是在卷积层中引入池化层（Pooling Layer）。</p>
+</blockquote>
+<h4 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h4><blockquote>
+<p>过拟合是指为了得到一致假设而使假设变得过度严格。避免过拟合是分类器设计中的一个核心任务。通常采用增大数据量和测试样本集的方法对分类器性能进行评价。</p>
+</blockquote>
+<h4 id="补白（Padding）"><a href="#补白（Padding）" class="headerlink" title="补白（Padding）"></a>补白（Padding）</h4><blockquote>
+<p>补白（Padding）通常是指给图像的边缘增加额外的空白，从而使得卷积后输出的图像跟输入图像在尺寸上一致，这也被称作相同补白（Same Padding）。</p>
+</blockquote>
+<h4 id="数据增强（Data-Augmentation）"><a href="#数据增强（Data-Augmentation）" class="headerlink" title="数据增强（Data Augmentation）"></a>数据增强（Data Augmentation）</h4><blockquote>
+<p>数据增强指的是从已有数据中创造出新的数据，通过增加训练量以期望能够提高预测的准确率。<br>比如，在数字识别中，我们遇到的数字9可能是倾斜或旋转的，因此如果将训练的图片进行适度的旋转，增大训练量，那么模型的准确性就可能会得到提高。<br>通过「旋转」「照亮」的操作，训练数据的品质得到了提升，这种过程被称作数据增强。</p>
+</blockquote>
+<h2 id="第一个试验：前向神经网络"><a href="#第一个试验：前向神经网络" class="headerlink" title="第一个试验：前向神经网络"></a>第一个试验：前向神经网络</h2><blockquote>
+<p>神经网络灵感来自于生物大脑，由大量的神经元和突触组成。引入神经网络，旨在解决非线性问题。</p>
+</blockquote>
+<p><img src="https://s2.ax1x.com/2019/12/21/QjmRat.png" alt="QjmRat.png"><br><img src="https://s2.ax1x.com/2019/12/21/Qjm2VI.png" alt="Qjm2VI.png"></p>
+<ul>
+<li>上图是一个典型的3层结构神经网络：输入层、隐含层和输出层。每层都有1个或多个神经元构成，神经元之间由边连接。边对应于权重。</li>
+</ul>
+<h4 id="1-1-一个简单的深度神经网络"><a href="#1-1-一个简单的深度神经网络" class="headerlink" title="1.1 一个简单的深度神经网络"></a>1.1 一个简单的深度神经网络</h4><blockquote>
+<p>下载数据集的速度很慢，如果计算量不大的话，可以使用jupyter notebook官网中提供的<strong>浏览器版本</strong>进行训练。<strong>优点：不用搭建环境，上传代码即可运行，服务器在国外，下载数据集的速度快</strong></p>
+</blockquote>
+<ul>
+<li>浏览器版本中测试出来的精度<pre><code>test_acc: 0.9764999747276306</code></pre></li>
+</ul>
+<h5 id="Mac在jupyter-notebook导入tensorflow出错：No-module-named-tensorflow-解决办法"><a href="#Mac在jupyter-notebook导入tensorflow出错：No-module-named-tensorflow-解决办法" class="headerlink" title="Mac在jupyter notebook导入tensorflow出错：No module named tensorflow 解决办法"></a>Mac在jupyter notebook导入tensorflow出错：No module named tensorflow 解决办法</h5><pre><code>activate tensorflow
+conda install nb_conda
+jupyter notebook</code></pre><h4 id="1-2-新闻分类"><a href="#1-2-新闻分类" class="headerlink" title="1.2 新闻分类"></a>1.2 新闻分类</h4><p><img src="https://s2.ax1x.com/2019/12/22/QzbdmQ.png" alt="QzbdmQ.png"></p>
+<ul>
+<li>最终测试精度为<code>0.780053436756134</code></li>
+</ul>
+<h2 id="第二个实验：卷积神经网络（CNN）"><a href="#第二个实验：卷积神经网络（CNN）" class="headerlink" title="第二个实验：卷积神经网络（CNN）"></a>第二个实验：卷积神经网络（CNN）</h2><blockquote>
+<p>卷积神经网络（Convolutional Neural Network，CNN）是一种前馈神经网络，它的人工神经元可以响应一部分覆盖范围内的周围单元，对于大型图像处理有出色表现。 它包括卷积层(convolutional layer)和池化层(pooling layer)。</p>
+</blockquote>
+<ul>
+<li>发现又无法导入PIL，在本地终端中尝试安装了好久，无果</li>
+<li>想到在Anaconda中安装包</li>
+<li>发现安装的包中连keras都没有</li>
+<li>于是在Anaconda中安装好keras，pillow后打开jupyter notebook成功解决</li>
+</ul>
+<h4 id="2-1-引入卷积神经网络"><a href="#2-1-引入卷积神经网络" class="headerlink" title="2.1 引入卷积神经网络"></a>2.1 引入卷积神经网络</h4><ul>
+<li>相较于基本的卷积神经网络的测试精度为<code>99.1%</code>，而本实验的测试精度为<code>0.9925000071525574</code></li>
+</ul>
+<h4 id="2-2-使用小数据集的卷积神经网络"><a href="#2-2-使用小数据集的卷积神经网络" class="headerlink" title="2.2 使用小数据集的卷积神经网络"></a>2.2 使用小数据集的卷积神经网络</h4><ul>
+<li>如果训练的素材比较少，可以通过增强一幅图像的多样性来增强网络，如倒置，旋转，翻转等。</li>
+</ul>
+<h4 id="2-3-使用预训练的-convert"><a href="#2-3-使用预训练的-convert" class="headerlink" title="2.3 使用预训练的 convert"></a>2.3 使用预训练的 convert</h4><h5 id="解决下载慢的问题"><a href="#解决下载慢的问题" class="headerlink" title="解决下载慢的问题"></a>解决下载慢的问题</h5><ul>
+<li>其中我们找到vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5下载即可。</li>
+</ul>
+<blockquote>
+<p>从这个命名也可以看出很多信息了，比如从tf看出这是基于tensorflow的（th是基于Theano ），notop也就是我们上面说的不要顶层的分类器部分，h5后缀表示keras使用HDF5格式存储的，等等。</p>
+</blockquote>
+<ul>
+<li><p>要想知道该文件下载时路径，可以断网查看出现的错误</p>
+</li>
+<li><p>从报错信息中可以得到你的机器中vgg16.py的文件路径<code>~/opt/anaconda3/lib/python3.7/site-packages/keras_applications/vgg16.py</code></p>
+</li>
+</ul>
+<pre><code>---------------------------------------------------------------------------
+KeyboardInterrupt                         Traceback (most recent call last)
+&lt;ipython-input-2-0596f40539c3&gt; in &lt;module&gt;
+      3 conv_base = VGG16(weights=&#39;imagenet&#39;,
+      4                   include_top=False,
+----&gt; 5                   input_shape=(150, 150, 3))
+
+~/opt/anaconda3/lib/python3.7/site-packages/keras/applications/__init__.py in wrapper(*args, **kwargs)
+     26             kwargs[&#39;models&#39;] = models
+     27             kwargs[&#39;utils&#39;] = utils
+---&gt; 28         return base_fun(*args, **kwargs)
+     29 
+     30     return wrapper
+
+~/opt/anaconda3/lib/python3.7/site-packages/keras/applications/vgg16.py in VGG16(*args, **kwargs)
+      9 @keras_modules_injection
+     10 def VGG16(*args, **kwargs):
+---&gt; 11     return vgg16.VGG16(*args, **kwargs)
+     12 
+     13 
+
+~/opt/anaconda3/lib/python3.7/site-packages/keras_applications/vgg16.py in VGG16(include_top, weights, input_tensor, input_shape, pooling, classes, **kwargs)
+    207                 WEIGHTS_PATH_NO_TOP,
+    208                 cache_subdir=&#39;models&#39;,
+--&gt; 209                 file_hash=&#39;6d6bbae143d832006294945121d1f1fc&#39;)
+    210         model.load_weights(weights_path)
+    211         if backend.backend() == &#39;theano&#39;:</code></pre><ul>
+<li>查看vgg16.py的代码，首先在顶部定义了两个下载路径：</li>
+</ul>
+<pre><code>WEIGHTS_PATH = &#39;https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels.h5&#39;
+WEIGHTS_PATH_NO_TOP = &#39;https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5&#39;</code></pre><ul>
+<li>往下翻，会看到获取文件路径的代码</li>
+</ul>
+<pre><code>    # load weights
+    if weights == &#39;imagenet&#39;:
+        if include_top:
+            weights_path = get_file(&#39;vgg16_weights_tf_dim_ordering_tf_kernels.h5&#39;,
+                                    WEIGHTS_PATH,
+                                    cache_subdir=&#39;models&#39;)
+        else:
+            weights_path = get_file(&#39;vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5&#39;,
+                                    WEIGHTS_PATH_NO_TOP,
+                                    cache_subdir=&#39;models&#39;)
+        model.load_weights(weights_path)</code></pre><ul>
+<li>这里调用了get_file这个函数来从路径中获取权重文件，再看代码</li>
+</ul>
+<pre><code>from keras.utils.data_utils import get_file</code></pre><ul>
+<li><p>找到<code>data_utils.py</code>的源代码</p>
+</li>
+<li><p>这个文件应该在的位置就是<code>~/.keras/models</code>，这时候我们直接进入该目录，发现models文件下果然有之前下的源文件</p>
+</li>
+<li><p>将文件覆盖掉</p>
+</li>
+<li><p>重启运行，成功</p>
+</li>
+</ul>
+<h2 id="第三个实验：递归神经网络"><a href="#第三个实验：递归神经网络" class="headerlink" title="第三个实验：递归神经网络"></a>第三个实验：递归神经网络</h2><h3 id="名词术语-1"><a href="#名词术语-1" class="headerlink" title="名词术语"></a>名词术语</h3><h4 id="递归神经元（Recurrent-NeuralNetwork）"><a href="#递归神经元（Recurrent-NeuralNetwork）" class="headerlink" title="递归神经元（Recurrent NeuralNetwork）"></a>递归神经元（Recurrent NeuralNetwork）</h4><blockquote>
+<p>对于递归神经元来说，经由它自己处理过的数据会变成自身下一次的输入，这个过程总共会进行 t 次。</p>
+</blockquote>
+<h4 id="递归神经网络（RNN-Recurrent-NeuralNetwork）"><a href="#递归神经网络（RNN-Recurrent-NeuralNetwork）" class="headerlink" title="递归神经网络（RNN-Recurrent NeuralNetwork）"></a>递归神经网络（RNN-Recurrent NeuralNetwork）</h4><blockquote>
+<p>递归神经网络通常被用于处理序列化的数据，即前一项的输出是用来预测下一项的输入。</p>
+</blockquote>
+<h4 id="3-1-词嵌入的使用"><a href="#3-1-词嵌入的使用" class="headerlink" title="3.1 词嵌入的使用"></a>3.1 词嵌入的使用</h4><h5 id="解决下载慢的问题-1"><a href="#解决下载慢的问题-1" class="headerlink" title="解决下载慢的问题"></a>解决下载慢的问题</h5><ul>
+<li>从网站中下载文件，因为第一个下载的文件是数据文件</li>
+<li>因此将文件放到<code>~/User/用户名/.keras/database/datasets</code>中</li>
+<li>重启运行后，出现错误</li>
+<li>搜索错误，再搜索出现错误的文件，进行修改</li>
+<li>重启运行</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/12/24/l92LV0.png" alt="l92LV0.png"></p>
+<ul>
+<li>得到最终结果<code>[0.8375755886173248, 0.5460399985313416]</code></li>
+</ul>
+<h4 id="3-2-理解递归神经网络"><a href="#3-2-理解递归神经网络" class="headerlink" title="3.2 理解递归神经网络"></a>3.2 理解递归神经网络</h4><p><img src="https://s2.ax1x.com/2019/12/24/l92OaV.png" alt="l92OaV.png"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在2.3以后的实验中，运行到一半就会出现同一个错误，在查阅相关资料后，也无法解决，导致实验无法继续进行。</p>
+<p><img src="https://s2.ax1x.com/2019/12/23/l9K92R.png" alt="l9K92R.png"></p>
+<ul>
+<li>于是想到了使用juypter notebook官网的浏览器版本，但是3.1，3.2中需要下载数据集，我们可以再第一行中使用python下载</li>
+</ul>
+<pre><code>import wget
+url = &quot;https://www.python.org/static/img/python-logo@2x.png&quot;
+wget.download(url, &#39;pythonLogo.png&#39;)</code></pre><ul>
+<li>并且使用解压命令解压即可完成</li>
+</ul>
+<pre><code>tar ...
+unzip ...</code></pre>
+                            <hr>
+                        </div>
+                        <br>
+                        <div>
+                            
+                            <p>
+                                <i class="iconfont icon-tag"></i>
+                                
+                            </p>
+                            
+                                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="d-none d-lg-block col-lg-2 toc-container">
+            
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i> Toc:</p> 
+    <div id="tocbot"></div>
+  </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+    <div class="container comments mx-auto" id="comments">
+        
+            <br><br>
+            
+            <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>               
+        var disqus_shortname = '';
+        var disqus_config = function () {
+            this.page.url = 'http://127.0.0.1:4000/2019/12/20/MAC下搭建Tensorflow-Keras开发环境/'; 
+            this.page.identifier = '/2019/12/20/MAC下搭建Tensorflow-Keras开发环境/';
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.src = '//'+disqus_shortname+'.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow noopener">comments powered by Disqus.</a></noscript>
+</div>
+        
+    </div>
+</div>
+    
+</main>
+
+<footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/0x2e/Material-T" target="_blank" rel="nofollow noopener"> <b>Material-T</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+  <!-- SCRIPTS -->
+  <script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+  <script src="/lib/mdbootstrap/js/popper.min.js"></script>
+  <script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+  <script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+  <script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+  <script src="/js/main.js"></script>
+  
+    
+      <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+    
+    <script src="/js/post.js"></script>
+  
+  
+    <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+    <script>
+      $(document).ready(function(){
+        $('pre').addClass('prettyprint linenums');
+        prettyPrint();
+      })
+    </script>
+  
+  
+    <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+    <script>
+        var typed = new Typed('#subtitle', {
+          strings: [
+            '  ',
+            "MAC下搭建Tensorflow+Keras开发环境&nbsp;",
+        ],
+        cursorChar: "_",
+        typeSpeed: 70,
+        startDelay: 300, //开始之前延迟300毫秒
+        loop: false,
+        });
+        $(".typed-cursor").addClass("h2");
+    </script>
+  
+  
+    <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+    <script>
+      anchors.options = {
+        placement: "right",
+        visible: "true",
+        
+      };
+      anchors.add(".post-content > h1,h2,h3,h4,h5,h6");
+    </script>
+  
+
+  
+</body>
+</html>
